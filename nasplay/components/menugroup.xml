@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="MenuGroup" extends="Group" initialFocus="menuMarkupList">
+<script type="text/brightscript" uri="pkg:/components/menugroup.brs"/>
+    <children>
+        <Poster
+            id="nasplay-logo"
+            uri="pkg:/images/nasplay-logo-160x48.png"
+            width="160"
+            height="48"
+            translation="[12,22]"
+        />
+        <Rectangle 
+            id="horzSeparator" 
+            translation="[1,92]" 
+            width="182" 
+            height="1" 
+            color="0x777777FF"
+        />
+        <Poster
+            id="tmdb-logo"
+            uri="pkg:/images/tmdb-logo-80x34.png"
+            width="80"
+            height="34"
+            translation="[50,662]"
+        />
+        <MarkupList 
+            id="menuMarkupList" 
+            itemComponentName="MenuItem"
+            itemSize="[144,72]" 
+            itemSpacing="[0,36]"
+            vertFocusAnimationStyle="floatingFocus"
+            focusFootprintBlendColor="0x80808040"
+            translation="[20,116]"
+        />
+    </children>
+</component>

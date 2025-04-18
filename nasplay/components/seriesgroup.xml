@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="SeriesGroup" extends="Group" initialFocus="seriesRowList">
+<script type="text/brightscript" uri="pkg:/components/seriesgroup.brs"/>
+    <children>
+        <Rectangle
+            id="seriesTitleRect"
+            color="0x00000000"
+            height="36"
+            width="1096"
+        >
+            <Label
+                id="seriesGroupTitle"
+                text="Series Title"
+                translation="[208,36]"
+                width="1096"
+                horizAlign="center"
+            />
+        </Rectangle>
+        <RowList
+            id="seriesRowList"
+            translation="[208,64]"
+            rowLabelFont="font:MediumSystemFont"
+            itemComponentName="SeriesItem"
+            itemSize="[1058,260]"
+            rowItemSize="[[166,250]]"
+            rowItemSpacing="[[24,0]]"
+            itemSpacing="[0,50]"
+            numRows="20"
+            showRowLabel="[true]"
+            showRowCounter="[true]"
+            drawFocusFeedback="false"
+            vertFocusAnimationStyle="fixedFocusWrap"
+            rowFocusAnimationStyle="floatingFocus"
+            opacity="1"
+        />
+    </children>
+</component>

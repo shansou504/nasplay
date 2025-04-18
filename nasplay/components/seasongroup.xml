@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="SeasonGroup" extends="Group" initialFocus="seasonLabelList">
+    <script type="text/brightscript.brs" uri="pkg:/components/seasongroup.brs"/>
+    <children>
+        <Poster
+            id = "seriesPanelSetBackGround"
+            uri = "pkg:/images/background_1280x720.png"
+            height = "720"
+            width = "1280"
+            translation = "[0,0]"
+        >
+            <Poster
+                id = "seriesBackdrop"
+                uri = "pkg:/images/icons8-picture-300x169.png"
+                height = "168"
+                width = "300"
+                translation = "[82,36]"
+            />
+            <Rectangle
+                id = "seriesBackground"
+                height = "232"
+                width = "1280"
+                color = "0x00000010"
+            />
+            <Label
+                id = "seriesTitle"
+                text = "Title Placeholder"
+                width = "734"
+                font = "font:LargeBoldSystemFont"
+                translation = "[464,36]"
+            />
+            <Label
+                id = "seriesDescription"
+                text = "Description placeholder"
+                width = "734"
+                height = "120"
+                translation = "[464,84]"
+                wrap = "true"
+            />
+            <Rectangle
+                id = "episodeNumberRectangle"
+                height = "20"
+                width = "100"
+                translation = "[1098,256]"
+                color = "0x00000000"
+            >
+                <Label
+                    id = "episodeNumber"
+                    text = "10 of 10"
+                    horizAlign = "right"
+                    vertAlign = "top"
+                    visible = "false"
+                    width = "100"
+                    font = "font:SmallSystemFont"
+                />
+            </Rectangle>
+            <LabelList
+                id = "seasonLabelList"
+                itemSize="[260,48]"
+                numRows="7"
+                translation = "[102,280]"
+                focusedColor = "0xddddddff"
+                focusFootprintBlendColor = "0x000000A0"
+            />
+            <MarkupList 
+                id = "episodeMarkupList" 
+                numRows = "3"
+                focusFootprintBlendColor = "0x000000A0"
+                itemComponentName = "EpisodeItem"
+                itemSize = "[734,128]" 
+                itemSpacing = "[0,12]"
+                drawFocusFeedbackOnTop="false"
+                vertFocusAnimationStyle = "floatingFocus"
+                translation = "[464,276]"
+                clippingRect = "[0.0,0.0,734.0,408.0]"                
+            />
+        </Poster>
+    </children>
+</component>

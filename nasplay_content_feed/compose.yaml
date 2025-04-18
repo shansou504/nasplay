@@ -1,0 +1,24 @@
+services:
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MARIADB_USER: node
+      MARIADB_PASSWORD: node
+      MARIADB_DATABASE: media
+      MARIADB_RANDOM_ROOT_PASSWORD: 1
+    volumes:
+      - ./mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8089:8080
+  node:
+    build: ./node/
+    restart: always
+    ports:
+      - 8088:3000
+    volumes:
+      - ../../Media:/home/node/app/media:ro
+    command: node index.js

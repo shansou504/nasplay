@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="MenuItem" extends="Group">
+  <interface> 
+    <field id="itemContent" type="node" onChange="showcontent"/>
+  </interface>
+  <script type="text/brightscript" uri="pkg:/components/menuitem.brs"/>
+  <children>
+    <Poster 
+      id="itemIcon" 
+      translation="[0,12]" 
+      width="48" 
+      height="48"
+    />
+    <Label 
+      id="itemLabel" 
+      translation="[60,24]"
+      width="100"
+    />
+  </children>
+</component>

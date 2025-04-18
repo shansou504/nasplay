@@ -1,0 +1,23 @@
+title=nasplay
+major_version=1
+minor_version=0
+build_version=00000
+
+mm_icon_focus_hd=pkg:/images/nasplay_540x405.png
+menu_hd=pkg:/images/menu_1280x720.png
+background_hd=pkg:/images/background_1280x720.png
+splash_screen_hd=pkg:/images/loading_1280x720.png
+nasplay-logo-160x48=pkg:/images/nasplay-logo-160x48.png
+tmdb-logo-80x43=pkg:/tmdb-logo-80x43.png
+details=pkg:/images/details.png
+movie=pkg:/images/movie.png
+server=pkg:/images/server.png
+tv=pkg:/images/tv.png
+icons8-picture-154x231=pkg:/images/icons8-picture-154x231.png
+icons8-picture-300x169=pkg:/images/icons8-picture-300x169.png
+
+
+splash_color=#662D91
+splash_min_time=1000
+
+ui_resolutions = "hd"

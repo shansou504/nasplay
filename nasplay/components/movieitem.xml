@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="MovieItem" extends="Group" initialFocus="itemPoster">
+<interface> 
+    <field id="itemContent" type="node" onChange="showcontent"/>
+    <field id="focusPercent" type="float" onChange="showfocus"/> 
+    <field id="rowFocusPercent" type="float"/>
+</interface>
+<script type="text/brightscript" uri="pkg:/components/movieitem.brs"></script>
+    <children>
+        <Poster 
+            id="itemPoster"
+            uri="pkg:/images/icons8-picture-154x231.png"
+            translation="[6,19]" 
+            width="154" 
+            height="231" 
+            scaleRotateCenter="[83.0,136.0]"
+        />
+    </children>
+</component>

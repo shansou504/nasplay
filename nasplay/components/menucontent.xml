@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="MenuContent" extends="ContentNode">
+  <children>
+    <ContentNode 
+      title="Movies" 
+      url="pkg:/images/movie.png"/>
+    <ContentNode 
+      title="Shows" 
+      url="pkg:/images/tv.png"/>
+    <ContentNode 
+      title="Server" 
+      url="pkg:/images/server.png"/>
+  </children>
+</component>

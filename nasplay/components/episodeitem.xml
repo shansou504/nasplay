@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="EpisodeItem" extends="Group">
+    <interface> 
+        <field id="itemContent" type="node" onChange="showcontent"/>
+    </interface>
+    <script type="text/brightscript" uri="pkg:/components/episodeitem.brs"/>
+    <children>
+        <Rectangle
+            id="episodeBackground"
+            color="0x000000FF"
+            height="124"
+            width="734"
+            opacity="0.0"
+            visible="false"
+        />
+        <Poster 
+            id="episodeItemPoster"
+            uri="pkg:/images/icons8-picture-185x104.png"
+            translation="[12,12]" 
+            width="185" 
+            height="104"
+        />
+        <Label 
+            id="episodeItemTitle"
+            text="Episode Title"
+            translation="[209,12]"
+            color="0xDDDDDDFF"
+            font="font:MediumSystemFont"
+            width="513"
+        />
+        <Label 
+            id="episodeItemDescription"
+            width="513"
+            height="88"
+            translation="[209,40]"
+            text="Episode description"
+            color="0xDDDDDDFF"
+            font="font:SmallestSystemFont"
+            wrap="true"
+        />
+    </children>
+</component>
