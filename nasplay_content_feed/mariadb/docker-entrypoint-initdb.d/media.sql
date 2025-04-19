@@ -77,33 +77,17 @@ CREATE TABLE `content` (
   `rating_id` int(11) DEFAULT NULL,
   `episodenumber` int(11) DEFAULT NULL,
   `numepisodes` int(11) DEFAULT NULL,
-  `category_id` int(11) NOT NULL,
-  `url_id` int(11) NOT NULL,
-  `filename` varchar(250) NOT NULL,
-  `streamformat_id` int(11) NOT NULL,
-  `filetype_id` int(11) NOT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `url_id` int(11) DEFAULT NULL,
+  `filename` varchar(250) DEFAULT NULL,
+  `streamformat_id` int(11) DEFAULT NULL,
+  `filetype_id` int(11) DEFAULT NULL,
   `filenametitleshow` varchar(250) DEFAULT NULL,
   `filenametitleseason` varchar(250) DEFAULT NULL,
   `subtitleurl_id` int(11) DEFAULT NULL,
-  `server_id` int(11) NOT NULL,
+  `server_id` int(11) DEFAULT NULL,
   `timestamp` float DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `category_id` (`category_id`),
-  KEY `contenttype_id` (`contenttype_id`),
-  KEY `filetype_id` (`filetype_id`),
-  KEY `streamformat_id` (`streamformat_id`),
-  KEY `rating_id` (`rating_id`),
-  KEY `server_id` (`server_id`),
-  KEY `url_id` (`url_id`),
-  KEY `subtitleurl_id` (`subtitleurl_id`),
-  CONSTRAINT `content_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-  CONSTRAINT `content_ibfk_2` FOREIGN KEY (`contenttype_id`) REFERENCES `contenttype` (`id`),
-  CONSTRAINT `content_ibfk_3` FOREIGN KEY (`filetype_id`) REFERENCES `filetype` (`id`),
-  CONSTRAINT `content_ibfk_4` FOREIGN KEY (`streamformat_id`) REFERENCES `filetype` (`id`),
-  CONSTRAINT `content_ibfk_5` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`id`),
-  CONSTRAINT `content_ibfk_6` FOREIGN KEY (`server_id`) REFERENCES `server` (`id`),
-  CONSTRAINT `content_ibfk_7` FOREIGN KEY (`url_id`) REFERENCES `url` (`id`),
-  CONSTRAINT `content_ibfk_8` FOREIGN KEY (`subtitleurl_id`) REFERENCES `subtitleurl` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -340,4 +324,4 @@ USE `media`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-04-18 21:01:41
+-- Dump completed on 2025-04-19 14:58:51
