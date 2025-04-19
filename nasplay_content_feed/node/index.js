@@ -12,7 +12,7 @@ const pool = mariadb.createPool(
     }
 );
 const path = require('path');
-const mediapath = path.join(__dirname,'../../Media/');
+const mediapath = path.join(__dirname,'media');
 
 async function runQuery(qry, args) {
     let conn;

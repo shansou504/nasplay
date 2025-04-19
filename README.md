@@ -3,7 +3,7 @@
 NASplay is a minimalist [Roku](https://www.roku.com/) app similar to [Plex](https://www.plex.tv/) or [Jellyfin](https://jellyfin.org/) that allows you to play content from your local media server. This repository hosts both the Roku app as well as a containerized backend framework for delivering your content. For testing and development on Roku see [how to activate developer mode](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md) and the [Visual Studio Brightscript Extension](https://marketplace.visualstudio.com/items?itemName=RokuCommunity.brightscript) for debugging.
 ## Roku app
 ### *Configuration*
-On the main menu, you can set your media server's IP address and port (default 8088). For example: ```http://192.168.1.2:8088```
+On the main menu, you can set your media server's IP address and port (default 8088). For example: ```http://192.168.1.2:8088/```
 ### *Content*
 Content must be provided by the user and added to the backend database. A few useful tools one might use are [HandBrake](https://handbrake.fr/) and [MakeMKV](https://www.makemkv.com/). To aid with metadata [The Movie Database API](https://developer.themoviedb.org/docs/getting-started) is extremely helpful.
 ## Backend Framework
@@ -47,7 +47,9 @@ The ```hdposterurl``` column is used for paths to poster (portrait) artwork that
 
 The ```secondarytitle``` column is used for the year the movie was released as suggested by Roku's content metadata documentation.
 
-The ```content_view``` generates the content feed for the Roku app. It is manipulated slightly by the Node.js server to replace the ```SubtitleUrl``` field with the ```SubtitleTracks``` object. More about Roku's content metadata [here](https://developer.roku.com/docs/developer-program/getting-started/architecture/content-metadata.md) 
+The ```content_view``` generates the content feed for the Roku app. It is manipulated slightly by the Node.js server to replace the ```SubtitleUrl``` field with the ```SubtitleTracks``` object. More about Roku's content metadata [here](https://developer.roku.com/docs/developer-program/getting-started/architecture/content-metadata.md)
+#### Backup and Restore
+According to the [documentation](https://hub.docker.com/_/mariadb) you can backup your database to the host machine by mounting to the ```/backup``` folder within the container. Similarly, to reset back to the initial database structure when starting up the container you can mount to the ```/docker-entrypoint-initdb.d```. You could also use this entrypoint to restore a backup if you wish to keep your data.
 ### Adminer
 This is a useful frontend for database management. It is included by the ```compose.yaml``` file by default but not required if another tool is preferred.
 ### Node.js

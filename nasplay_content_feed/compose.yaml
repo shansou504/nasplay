@@ -8,6 +8,7 @@ services:
       MARIADB_DATABASE: media
       MARIADB_RANDOM_ROOT_PASSWORD: 1
     volumes:
+      - ./mariadb/backup:/backup
       - ./mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
   adminer:
     image: adminer:latest
