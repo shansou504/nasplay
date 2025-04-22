@@ -17,6 +17,7 @@ sub init()
     m.top.backgroundURI = "pkg:/images/menu_1280x720.png"
     m.top.appendChild(m.menugroup)
     m.menugroup.setFocus(true)
+    m.top.SignalBeacon("AppLaunchComplete")
 
     m.moviegroup = CreateObject("roSGNode", "MovieGroup")
     m.movietitle = m.moviegroup.findNode("movieTitle")
@@ -87,7 +88,7 @@ sub setserver()
     m.savedserver.Write("address",m.keyboarddialog.text)
     m.savedserver.flush()
     m.server = getserver()
-    m.mediatask.contenturi = m.server
+    m.mediatask.contenturi = m.server + "/media"
     m.mediatask.control = "RUN"
     m.keyboarddialog.close = true
     m.menugroup.setFocus(true)
