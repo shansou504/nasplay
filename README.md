@@ -1,6 +1,6 @@
-# NASplay
+# nasplay
 ### *Description*
-NASplay is a minimalist [Roku](https://www.roku.com/) app similar to [Plex](https://www.plex.tv/) or [Jellyfin](https://jellyfin.org/) that allows you to play content from your local media server. This repository hosts both the Roku app as well as a containerized backend framework for delivering your content. For testing and development on Roku see [how to activate developer mode](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md) and the [Visual Studio Brightscript Extension](https://marketplace.visualstudio.com/items?itemName=RokuCommunity.brightscript) for debugging.
+nasplay is a minimalist [Roku](https://www.roku.com/) app similar to [Plex](https://www.plex.tv/) or [Jellyfin](https://jellyfin.org/) that allows you to play content from your local media server. This repository hosts both the Roku app as well as a containerized backend framework for delivering your content. For testing and development on Roku see [how to activate developer mode](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md) and the [Visual Studio Brightscript Extension](https://marketplace.visualstudio.com/items?itemName=RokuCommunity.brightscript) for debugging.
 ## Roku app
 ### *Configuration*
 On the main menu, you can set your media server's IP address and port (default 8088). For example: ```http://192.168.1.2:8088```
