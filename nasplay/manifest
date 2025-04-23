@@ -3,10 +3,11 @@ major_version=1
 minor_version=0
 build_version=00000
 
-mm_icon_focus_hd=pkg:/images/nasplay_540x405.png
+mm_icon_focus_hd=pkg:/images/nasplay_290x218.png
+mm_icon_focus_fhd=pkg:/images/nasplay_540x405.png
 menu_hd=pkg:/images/menu_1280x720.png
 background_hd=pkg:/images/background_1280x720.png
-splash_screen_hd=pkg:/images/loading_1280x720.png
+splash_screen_hd=pkg:/images/splash_1280x720.png
 nasplay-logo-160x48=pkg:/images/nasplay-logo-160x48.png
 tmdb-logo-80x43=pkg:/tmdb-logo-80x43.png
 details=pkg:/images/details.png
@@ -21,3 +22,5 @@ splash_color=#662D91
 splash_min_time=1000
 
 ui_resolutions = "hd"
+
+supports_input_launch=0

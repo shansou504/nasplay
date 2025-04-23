@@ -77,7 +77,7 @@ Function getserver() As Dynamic
 End Function
 
 sub showdialog()
-    m.keyboarddialog = createObject("roSGNode", "KeyboardDialog")
+    m.keyboarddialog = createObject("roSGNode", "StandardKeyboardDialog")
     m.keyboarddialog.ObserveField("buttonSelected","setserver")
     m.keyboarddialog.title = "Server"
     m.keyboarddialog.buttons = ["Save"]
