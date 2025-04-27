@@ -65,6 +65,9 @@ sub init()
 
     ' SCREEN STACK SECTION
     m.screenarray = CreateObject("roArray", 10, true)
+
+    ' DEEP LINK SECTION
+    m.deepLinkHandled = false
 end sub
 
 ' SERVER SECTION
@@ -210,6 +213,10 @@ sub updatedetails()
     m.ratinglabel.setField("text", m.selectedmovie.rating)
     m.backdrop.setField("uri", m.selectedmovie.fhdposterurl)
     m.descriptionlabel.setField("text", m.selectedmovie.description)
+    if m.deepLinkHandled then
+        m.top.deepLinkHandled = true
+        m.deepLinkHandled = false
+    end if
 end sub
 
 sub showdetailsgroup()
@@ -223,6 +230,10 @@ sub updateseasons()
     m.seriesbackdrop.uri = m.selectedseries.fhdposterurl
     m.seriestitle.text = m.selectedseries.title
     m.seriesdescription.text = m.selectedseries.description
+    if m.deepLinkHandled then
+        m.top.deepLinkHandled = true
+        m.deepLinkHandled = false
+    end if
 end sub
 
 sub showseasons()
@@ -370,3 +381,76 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         return false
     end if
 end function
+
+' DEEP LINK SECTION
+sub OnInputDeepLinking(event as Object)
+    m.deepLinkHandled = false
+    args = event.getData()
+    if args <> invalid AND args.contentId <> invalid AND args.mediaType <> invalid then
+        contentId = args.contentId
+        mediaType = args.mediaType
+        if mediaType = "movie"
+            while m.screenarray.count() > 0
+                closescreen(m.screenarray.Peek().previousscreen, m.screenarray.Peek().previouschildfocus, m.screenarray.Peek().currentscreen)
+            end while
+            showscreen(m.menugroup, m.menumarkuplist, m.moviegroup, m.movierowlist)
+            rowarray = m.movierowlist.content.getChildren(-1, 0)
+            for i=0 to m.movierowlist.content.getChildCount() - 1
+                itemarray = rowarray[i].getChildren(-1, 0)
+                found = false
+                for j=0 to itemarray.count() - 1
+                    if itemarray[j].id = contentId then
+                        found = true
+                        m.deepLinkHandled = true
+                        m.movierowlist.jumpToRowItem = [i,j]
+                        exit for
+                    else
+                        j++
+                    end if
+                end for
+                if found then
+                    exit for
+                else
+                    i++
+                end if
+            end for
+        else if mediaType = "episode" then
+            while m.screenarray.count() > 0
+                closescreen(m.screenarray.Peek().previousscreen, m.screenarray.Peek().previouschildfocus, m.screenarray.Peek().currentscreen)
+            end while
+            showscreen(m.menugroup, m.menumarkuplist, m.seriesgroup, m.seriesrowlist)
+            rowarray = m.seriesrowlist.content.getChildren(-1, 0)
+            for i=0 to m.seriesrowlist.content.getChildCount() - 1
+                itemarray = rowarray[i].getChildren(-1, 0)
+                found = false
+                for j=0 to itemarray.count() - 1
+                    if itemarray[j].id = contentId then
+                        found = true
+                        m.deepLinkHandled = true
+                        m.seriesrowlist.jumpToRowItem = [i,j]
+                        exit for
+                    else
+                        j++
+                    end if
+                end for
+                if found then
+                    exit for
+                else
+                    i++
+                end if
+            end for
+        end if
+    end if
+end sub
+
+sub PlayDeepLinkMedia()
+    if m.top.deepLinkHandled then
+        if m.movierowlist.isInFocusChain() then
+            showdetailsgroup()
+            playbuttonselected()
+        else if m.seriesrowlist.isInFocusChain() then
+            showseasons()
+        end if
+    end if
+    m.top.deepLinkHandled = false
+end sub

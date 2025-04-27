@@ -23,4 +23,4 @@ splash_min_time=1000
 
 ui_resolutions = "hd"
 
-supports_input_launch=0
+supports_input_launch=1
