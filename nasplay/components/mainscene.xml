@@ -4,7 +4,7 @@
         <field id="inputArgs" type="assocarray" onChange="OnInputDeepLinking" />
         <field id="deepLinkHandled" type="boolean" value="false" onChange="PlayDeepLinkMedia" />
         <field id="episodeHandled" type="boolean" value="false" onChange="PlayDeepLinkMedia" />
-        <field id="launchArgs" type="assocarray" />
+        <field id="launchArgs" type="assocarray" onChange="InitDeepLinkLaunch" />
     </interface>
     <script type="text/brightscript" uri="pkg:/components/mainscene.brs"/>
     <children>

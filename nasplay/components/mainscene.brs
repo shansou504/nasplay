@@ -207,6 +207,10 @@ sub updatemedia()
         end for
         m.seriesrowlist.content = m.seriescontent
     end if
+    if m.deepLinkLaunchArgs <> invalid and m.deepLinkLaunchArgs.contentId <> invalid and m.deepLinkLaunchArgs.mediaType <> invalid then
+        m.deepLinkLaunchInitiated = true
+        OnInputDeepLinking(invalid)
+    end if
 end sub
 
 ' MOVIE SECTION
@@ -423,9 +427,19 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
 end function
 
 ' DEEP LINK SECTION
+sub InitDeepLinkLaunch()
+    m.deepLinkLaunchArgs = m.top.launchArgs
+    m.deepLinkLaunchInitiated = false
+end sub
+
 sub OnInputDeepLinking(event as Object)
     m.deepLinkHandled = false
-    args = event.getData()
+    if event = invalid and m.deepLinkLaunchInitiated then
+        m.deepLinkLaunchInitiated = false
+        args = {contentId: m.deepLinkLaunchArgs.contentId, mediaType: m.deepLinkLaunchArgs.mediaType}
+    else
+        args = event.getData()
+    end if
     if args <> invalid AND args.contentId <> invalid AND args.mediaType <> invalid then
         contentId = args.contentId
         mediaType = args.mediaType

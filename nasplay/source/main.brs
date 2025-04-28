@@ -17,8 +17,6 @@ sub showChannelSGScreen(args)
             if msg.isScreenClosed() then return
         else if msgType = "roInputEvent"
             inputData = msg.getInfo()
-            ? "input"
-            ' pass the deeplink to UI
             if inputData.DoesExist("mediaType") and inputData.DoesExist("contentId")
                 deeplink = {
                     contentId: inputData.contentID
