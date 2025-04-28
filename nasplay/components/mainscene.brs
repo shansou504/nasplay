@@ -68,6 +68,10 @@ sub init()
 
     ' DEEP LINK SECTION
     m.deepLinkHandled = false
+    m.deepLinkEpisodeSeriesId = invalid
+    m.deepLinkEpisodeSeasonId = invalid
+    m.deepLinkEpisodeEpisodeId = invalid
+    m.episodeHandled = false
 end sub
 
 ' SERVER SECTION
@@ -231,8 +235,7 @@ sub updateseasons()
     m.seriestitle.text = m.selectedseries.title
     m.seriesdescription.text = m.selectedseries.description
     if m.deepLinkHandled then
-        m.top.deepLinkHandled = true
-        m.deepLinkHandled = false
+        showseasons()
     end if
 end sub
 
@@ -275,6 +278,24 @@ sub updateepisodes()
         end for
         m.episodemarkuplist.content = m.episodecontent
     end if
+    seasonhandled = false
+    if m.deepLinkHandled then
+        seasons = m.seasonlabellist.content.getChildren(-1, 0)
+        for i=0 to seasons.count() - 1
+            found = false
+            if seasons[i].id = m.deepLinkEpisodeSeasonId
+                seasonhandled = true
+                found = true
+                m.seasonlabellist.jumpToItem = i
+            end if
+            if found then
+                exit for
+            end if
+        end for
+    end if
+    if seasonhandled then
+        showepisodes()
+    end if
 end sub
 
 sub showepisodes()
@@ -284,6 +305,25 @@ end sub
 sub updateepisodenumber()
     m.episodenumber.text = m.episodemarkuplist.content.getChild(m.episodemarkuplist.itemFocused).EpisodeNumber + " of " + Str(m.episodemarkuplist.content.getChildCount()).trim()
     m.episodenumber.visible = true
+    m.episodeHandled = false
+    if m.deepLinkHandled then
+        episodes = m.episodemarkuplist.content.getChildren(-1, 0)
+        for i=0 to episodes.count() - 1
+            found = false
+            if episodes[i].id = m.deepLinkEpisodeEpisodeId then
+                m.episodeHandled = true
+                found = true
+                m.episodemarkuplist.jumpToItem = i
+            end if
+            if found then
+                exit for
+            end if
+        end for
+        if m.episodeHandled then
+            m.deepLinkHandled = false
+            m.top.episodeHandled = true
+        end if
+    end if
 end sub
 
 ' VIDEO PLAYER SECTION
@@ -294,7 +334,7 @@ sub playbuttonselected()
 end sub
 
 sub callplayvideo()
-    m.episodeselected = m.episodemarkuplist.content.getChild(m.episodemarkuplist.itemSelected)
+    m.episodeselected = m.episodemarkuplist.content.getChild(m.episodemarkuplist.itemFocused)
     m.screenarray.Push({previousscreen: m.seasongroup, previouschildfocus: m.episodemarkuplist, currentscreen: m.videogroup, currentchildfocus: m.video})
     playvideo(m.episodeselected)
 end sub
@@ -415,6 +455,14 @@ sub OnInputDeepLinking(event as Object)
                 end if
             end for
         else if mediaType = "episode" then
+            m.media = ParseJson(m.mediatask.content)
+            for each episode in m.media
+                if Str(episode.id).trim() = contentId then
+                    m.deepLinkEpisodeSeriesId = Str(episode.seriesid).trim()
+                    m.deepLinkEpisodeSeasonId = Str(episode.seasonid).trim()
+                    m.deepLinkEpisodeEpisodeId = Str(episode.id).trim()
+                end if
+            end for
             while m.screenarray.count() > 0
                 closescreen(m.screenarray.Peek().previousscreen, m.screenarray.Peek().previouschildfocus, m.screenarray.Peek().currentscreen)
             end while
@@ -424,7 +472,7 @@ sub OnInputDeepLinking(event as Object)
                 itemarray = rowarray[i].getChildren(-1, 0)
                 found = false
                 for j=0 to itemarray.count() - 1
-                    if itemarray[j].id = contentId then
+                    if itemarray[j].id = m.deepLinkEpisodeSeriesId then
                         found = true
                         m.deepLinkHandled = true
                         m.seriesrowlist.jumpToRowItem = [i,j]
@@ -448,9 +496,14 @@ sub PlayDeepLinkMedia()
         if m.movierowlist.isInFocusChain() then
             showdetailsgroup()
             playbuttonselected()
-        else if m.seriesrowlist.isInFocusChain() then
-            showseasons()
+        end if
+    end if
+    if m.top.episodeHandled then
+        if m.episodemarkuplist.isInFocusChain() then
+            m.episodeHandled = false
+            callplayvideo()
         end if
     end if
     m.top.deepLinkHandled = false
+    m.top.episodeHandled = false
 end sub
