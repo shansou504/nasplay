@@ -71,7 +71,9 @@ sub init()
     m.deepLinkEpisodeSeriesId = invalid
     m.deepLinkEpisodeSeasonId = invalid
     m.deepLinkEpisodeEpisodeId = invalid
+    m.seasonHandled = false
     m.episodeHandled = false
+    m.lastWatchedEpisode = invalid
 end sub
 
 ' SERVER SECTION
@@ -131,39 +133,41 @@ sub updatemedia()
     if m.movies <> invalid then
         m.moviecontent = CreateObject("roSGNode", "ContentNode")
         m.moviecontent.setField("id", "moviecontent")
-        for i = m.movies.count() - 1 to 0 step -1
-            if m.movies[i].ContentType <> "movie" then
-                m.movies.Delete(i)
-            end if
-        end for
-        m.movies.SortBy("Categories")
-        for each movie in m.movies
-            duplicatecategory = false
-            for each category in moviecategories
-                if category.category = movie.categories then
-                    duplicatecategory = true
+        if m.movies.count() > 1 then
+            for i = m.movies.count() - 1 to 0 step -1
+                if m.movies[i].ContentType <> "movie" then
+                    m.movies.Delete(i)
                 end if
             end for
-            if not duplicatecategory then
-                moviecategories.Push({"category": movie.categories, "movies": [movie]})
-            else
+            m.movies.SortBy("Categories")
+            for each movie in m.movies
+                duplicatecategory = false
                 for each category in moviecategories
                     if category.category = movie.categories then
-                        category.movies.Push(movie)
+                        duplicatecategory = true
                     end if
                 end for
-            end if
-        end for
-        for each category in moviecategories
-            category.movies.SortBy("Title")
-            moviecategory = m.moviecontent.createChild("ContentNode")
-            moviecategory.setField("id", "movie_" + category.category)
-            moviecategory.setField("title", category.category)
-            for each movie in category.movies
-                movienode = moviecategory.createChild("ContentNode")
-                movienode.setFields(movie)
+                if not duplicatecategory then
+                    moviecategories.Push({"category": movie.categories, "movies": [movie]})
+                else
+                    for each category in moviecategories
+                        if category.category = movie.categories then
+                            category.movies.Push(movie)
+                        end if
+                    end for
+                end if
             end for
-        end for
+            for each category in moviecategories
+                category.movies.SortBy("Title")
+                moviecategory = m.moviecontent.createChild("ContentNode")
+                moviecategory.setField("id", "movie_" + category.category)
+                moviecategory.setField("title", category.category)
+                for each movie in category.movies
+                    movienode = moviecategory.createChild("ContentNode")
+                    movienode.setFields(movie)
+                end for
+            end for
+        end if
         m.movierowlist.content = m.moviecontent
     end if
 
@@ -172,39 +176,41 @@ sub updatemedia()
     if m.series <> invalid then
         m.seriescontent = CreateObject("roSGNode", "ContentNode")
         m.seriescontent.setField("id", "seriescontent")
-        for i = m.series.count() - 1 to 0 step -1
-            if m.series[i].ContentType <> "series" then
-                m.series.Delete(i)
-            end if
-        end for
-        m.series.SortBy("Categories")
-        for each series in m.series
-            duplicatecategory = false
-            for each category in seriescategories
-                if series.Categories = category.category then
-                    duplicatecategory = true
+        if m.series.count() > 1 then
+            for i = m.series.count() - 1 to 0 step -1
+                if m.series[i].ContentType <> "series" then
+                    m.series.Delete(i)
                 end if
             end for
-            if not duplicatecategory then
-                seriescategories.Push({"category": series.Categories, "series": [series]})
-            else
+            m.series.SortBy("Categories")
+            for each series in m.series
+                duplicatecategory = false
                 for each category in seriescategories
                     if series.Categories = category.category then
-                        category.series.Push(series)
+                        duplicatecategory = true
                     end if
                 end for
-            end if
-        end for
-        for each category in seriescategories
-            category.series.SortBy("Title")
-            seriescategory = m.seriescontent.createChild("ContentNode")
-            seriescategory.setField("id", "series_" + series.Categories)
-            seriescategory.setField("title", series.Categories)
-            for each series in category.series
-                seriesnode = seriescategory.createChild("ContentNode")
-                seriesnode.setFields(series)
+                if not duplicatecategory then
+                    seriescategories.Push({"category": series.Categories, "series": [series]})
+                else
+                    for each category in seriescategories
+                        if series.Categories = category.category then
+                            category.series.Push(series)
+                        end if
+                    end for
+                end if
             end for
-        end for
+            for each category in seriescategories
+                category.series.SortBy("Title")
+                seriescategory = m.seriescontent.createChild("ContentNode")
+                seriescategory.setField("id", "series_" + series.Categories)
+                seriescategory.setField("title", series.Categories)
+                for each series in category.series
+                    seriesnode = seriescategory.createChild("ContentNode")
+                    seriesnode.setFields(series)
+                end for
+            end for
+        end if
         m.seriesrowlist.content = m.seriescontent
     end if
     if m.deepLinkLaunchArgs <> invalid and m.deepLinkLaunchArgs.contentId <> invalid and m.deepLinkLaunchArgs.mediaType <> invalid then
@@ -248,11 +254,13 @@ sub showseasons()
     m.seasoncontent = CreateObject("roSGNode", "ContentNode")
     m.seasoncontent.setField("id", "seasoncontent")
     if m.seasons <> invalid then
-        for i = m.seasons.count() - 1 to 0 step -1
-            if m.seasons[i].ContentType <> "season" OR Str(m.seasons[i].SeriesId).Trim() <> m.selectedseries.id then                
-                m.seasons.Delete(i)
-            end if
-        end for
+        if m.seasons.count() > 1
+            for i = m.seasons.count() - 1 to 0 step -1
+                if m.seasons[i].ContentType <> "season" OR Str(m.seasons[i].SeriesId).Trim() <> m.selectedseries.id then                
+                    m.seasons.Delete(i)
+                end if
+            end for
+        end if
         m.seasons.SortBy("TitleSeason")
         for each season in m.seasons
             seasonnode = m.seasoncontent.createChild("ContentNode")
@@ -264,16 +272,58 @@ sub showseasons()
 end sub
 
 sub updateepisodes()
+    if m.deepLinkHandled then
+        seasons = m.seasonlabellist.content.getChildren(-1, 0)
+        if m.deepLinkEpisodeSeasonId = invalid then 'handle series deep link
+            watchedepisodes = ParseJson(m.mediatask.content)
+            watchedepisodes.SortBy("EpisodeNumber")
+            episodearray = CreateObject("roArray", 600, true)
+            for each season in seasons
+                for each watchedepisode in watchedepisodes
+                    if watchedepisode.ContentType = "episode" and watchedepisode.SeasonID <> invalid and Str(watchedepisode.SeasonID).trim() = season.id and watchedepisode.TimeStamp > 0 then
+                        episodearray.Push(watchedepisode)
+                    end if
+                end for
+            end for
+            lastWatchedSeasonID = invalid
+            if episodearray.count() > 0
+                m.lastWatchedEpisode = episodearray.Peek()
+                lastWatchedSeasonID = Str(episodearray.Peek().SeasonID).trim()
+            end if
+            if lastWatchedSeasonID <> invalid then
+                for i = 0 to seasons.count() - 1
+                    if seasons[i].ID = lastWatchedSeasonID then
+                        m.seasonHandled = true
+                        m.seasonlabellist.jumpToItem = i
+                        exit for
+                    end if
+                end for
+            else
+                m.seasonlabellist.jumpToItem = 0
+            end if
+            m.seasonHandled = true
+        else 'handle episode deep link
+            for i=0 to seasons.count() - 1
+                if seasons[i].id = m.deepLinkEpisodeSeasonId
+                    m.seasonHandled = true
+                    m.seasonlabellist.jumpToItem = i
+                    exit for
+                end if
+            end for
+        end if
+    end if
     m.seasonfocused = m.seasonlabellist.content.getChild(m.seasonlabellist.itemFocused)
     m.episodes = ParseJson(m.mediatask.content)
     m.episodecontent = CreateObject("roSGNode", "ContentNode")
     m.episodecontent.setField("id", "episodescontent")
     if m.episodes <> invalid then
-        for i = m.episodes.count() - 1 to 0 step -1
-            if m.episodes[i].ContentType <> "episode" OR Str(m.episodes[i].SeasonID).Trim() <> m.seasonfocused.id then
-                m.episodes.Delete(i)
-            end if
-        end for
+        if m.episodes.count() > 1
+            for i = m.episodes.count() - 1 to 0 step -1
+                if m.episodes[i].ContentType <> "episode" OR Str(m.episodes[i].SeasonID).Trim() <> m.seasonfocused.id then
+                    m.episodes.Delete(i)
+                end if
+            end for
+        end if
         m.episodes.SortBy("EpisodeNumber")
         for each episode in m.episodes
             episodenode = m.episodecontent.createChild("ContentNode")
@@ -282,22 +332,8 @@ sub updateepisodes()
         end for
         m.episodemarkuplist.content = m.episodecontent
     end if
-    seasonhandled = false
-    if m.deepLinkHandled then
-        seasons = m.seasonlabellist.content.getChildren(-1, 0)
-        for i=0 to seasons.count() - 1
-            found = false
-            if seasons[i].id = m.deepLinkEpisodeSeasonId
-                seasonhandled = true
-                found = true
-                m.seasonlabellist.jumpToItem = i
-            end if
-            if found then
-                exit for
-            end if
-        end for
-    end if
-    if seasonhandled then
+    if m.seasonHandled then
+        m.seasonHandled = false
         showepisodes()
     end if
 end sub
@@ -313,20 +349,25 @@ sub updateepisodenumber()
     if m.deepLinkHandled then
         episodes = m.episodemarkuplist.content.getChildren(-1, 0)
         for i=0 to episodes.count() - 1
-            found = false
-            if episodes[i].id = m.deepLinkEpisodeEpisodeId then
-                m.episodeHandled = true
-                found = true
-                m.episodemarkuplist.jumpToItem = i
-            end if
-            if found then
-                exit for
+            if m.deepLinkEpisodeEpisodeId <> invalid then
+                if episodes[i].id = m.deepLinkEpisodeEpisodeId then
+                    m.episodeHandled = true
+                    m.episodemarkuplist.jumpToItem = i
+                    exit for
+                end if
+            else if m.lastWatchedEpisode <> invalid then
+                if episodes[i].id = Str(m.lastWatchedEpisode.ID).trim() then
+                    m.episodeHandled = true
+                    m.episodemarkuplist.jumpToItem = i
+                    exit for
+                end if
             end if
         end for
-        if m.episodeHandled then
-            m.deepLinkHandled = false
-            m.top.episodeHandled = true
+        if not m.episodeHandled then
+            m.episodemarkuplist.jumpToItem = 0
         end if
+        m.top.episodeHandled = true
+        m.deepLinkHandled = false
     end if
 end sub
 
@@ -468,13 +509,19 @@ sub OnInputDeepLinking(event as Object)
                     i++
                 end if
             end for
-        else if mediaType = "episode" then
+        else if mediaType = "episode" or mediaType = "series" then
             m.media = ParseJson(m.mediatask.content)
             for each episode in m.media
                 if Str(episode.id).trim() = contentId then
-                    m.deepLinkEpisodeSeriesId = Str(episode.seriesid).trim()
-                    m.deepLinkEpisodeSeasonId = Str(episode.seasonid).trim()
-                    m.deepLinkEpisodeEpisodeId = Str(episode.id).trim()
+                    if mediaType = "episode" then
+                        m.deepLinkEpisodeSeriesId = Str(episode.seriesid).trim()
+                        m.deepLinkEpisodeSeasonId = Str(episode.seasonid).trim()
+                        m.deepLinkEpisodeEpisodeId = Str(episode.id).trim()
+                        exit for
+                    else if mediaType = "series" then
+                        m.deepLinkEpisodeSeriesId = Str(episode.id).trim()
+                        exit for
+                    end if
                 end if
             end for
             while m.screenarray.count() > 0
