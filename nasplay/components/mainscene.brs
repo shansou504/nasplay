@@ -59,6 +59,7 @@ sub init()
     m.timer = m.top.findNode("timer")
     m.timer.ObserveField("fire","callsettimestamp")
     m.settimestamptask = CreateObject("roSGNode", "SetTimeStampTask")
+    m.markwatchedtask = CreateObject("roSGNode", "MarkWatchedTask")
     m.videogroup = CreateObject("roSGNode", "VideoGroup")
     m.video = m.videogroup.findNode("video")
     m.video.ObserveField("state", "controlvideoplay")
@@ -407,6 +408,7 @@ sub controlvideoplay()
         m.timer.control = "stop"
         TimeStamp = Str(0)
         settimestamp(TimeStamp)
+        markwatched()
         closescreen(m.screenarray.Peek().previousscreen, m.screenarray.Peek().previouschildfocus, m.screenarray.Peek().currentscreen)
     end if
 end sub
@@ -422,6 +424,11 @@ sub settimestamp(TimeStamp)
     else
         m.timer.control = "stop"
     end if
+end sub
+
+sub markwatched()
+    m.markwatchedtask.contenturi = m.server + "/markwatched/" + m.video.content.id
+    m.markwatchedtask.control = "RUN"
 end sub
 
 ' REMOTE CONTROL SECTION

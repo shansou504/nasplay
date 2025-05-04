@@ -3,7 +3,7 @@
 --
 -- Host: localhost    Database: media
 -- ------------------------------------------------------
--- Server version	11.4.2-MariaDB-ubu2404
+-- Server version       11.4.2-MariaDB-ubu2404
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -87,6 +87,7 @@ CREATE TABLE `content` (
   `subtitleurl_id` int(11) DEFAULT NULL,
   `server_id` int(11) DEFAULT NULL,
   `timestamp` float DEFAULT NULL,
+  `watched` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -324,4 +325,4 @@ USE `media`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-04-19 14:58:51
+-- Dump completed on 2025-05-02 20:20:23

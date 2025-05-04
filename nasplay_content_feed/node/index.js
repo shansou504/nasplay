@@ -54,6 +54,13 @@ app.get('/settimestamp/:id/timestamp/:ts', async function (req, res) {
     res.send('OK');
 });
 
+app.get('/markwatched/:id', async function (req, res) {
+    let args = [];
+    args.push(req.params.id);
+    const data = await runQuery('UPDATE content SET watched = \'1\' WHERE id = ?;', args);
+    res.send('OK');
+});
+
 app.get('/Movies/:movie', (req, res) => {
     res.sendFile(path.join(mediapath,'Movies',req.params.movie));
 });
