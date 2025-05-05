@@ -2,8 +2,8 @@
 <component name="MainScene" extends="Scene">
     <interface>
         <field id="inputArgs" type="assocarray" onChange="OnInputDeepLinking" />
-        <field id="deepLinkHandled" type="boolean" value="false" onChange="PlayDeepLinkMedia" />
-        <field id="episodeHandled" type="boolean" value="false" onChange="PlayDeepLinkMedia" />
+        <field id="deepLinkHandled" type="boolean" value="false" onChange="PlayDeepLinkMedia" alwaysNotify="true" />
+        <field id="episodeHandled" type="boolean" value="false" onChange="PlayDeepLinkMedia" alwaysNotify="true" />
         <field id="launchArgs" type="assocarray" onChange="InitDeepLinkLaunch" />
     </interface>
     <script type="text/brightscript" uri="pkg:/components/mainscene.brs"/>

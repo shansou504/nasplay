@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="MarkUnwatchedTask" extends="Task">
+    <interface>
+        <field id="contenturi" type="uri"/>
+    </interface>
+    <script type="text/brightscript" uri="pkg:/components/markunwatchedtask.brs"/>
+</component>

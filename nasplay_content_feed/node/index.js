@@ -27,6 +27,8 @@ async function runQuery(qry, args) {
     }
 }
 
+app.use(express.urlencoded({ extended: true }))
+
 app.get('/media', async function (req, res) {
     let args = [];
     const data = await runQuery('SELECT * FROM content_view;', args);
@@ -58,6 +60,13 @@ app.get('/markwatched/:id', async function (req, res) {
     let args = [];
     args.push(req.params.id);
     const data = await runQuery('UPDATE content SET watched = \'1\' WHERE id = ?;', args);
+    res.send('OK');
+});
+
+app.get('/markunwatched/:id', async function (req, res) {
+    let args = [];
+    args.push(req.params.id);
+    const data = await runQuery('UPDATE content SET watched = \'0\' WHERE series_id = ? AND contenttype_id = 4;', args);
     res.send('OK');
 });
 

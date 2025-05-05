@@ -14,9 +14,9 @@ c.hdposterurl AS HDPosterUrl,
 c.fhdposterurl AS FHDPosterUrl,
 r.rating AS Rating,
 cat.category AS Categories,
-concat(s.server,url.url,'/',if(c.contenttype_id=4,concat(c.filenametitleshow,'/',c.filenametitleseason,'/',c.filename),c.filename),'.',f.filetype) AS Url,
+concat(s.server,'/',url.url,'/',if(c.contenttype_id=4,concat(c.filenametitleshow,'/',c.filenametitleseason,'/',c.filename),c.filename),'.',f.filetype) AS Url,
 f.filetype AS StreamFormat,
-concat(s.server,sub.subtitleurl,'/',if(c.contenttype_id=4,concat(c.filenametitleshow,'/'),''),c.filename,'.srt') AS SubtitleUrl,
+concat(s.server,'/',sub.subtitleurl,'/',if(c.contenttype_id=4,concat(c.filenametitleshow,'/'),''),c.filename,'.srt') AS SubtitleUrl,
 c.`timestamp` AS `TimeStamp`,
 c.watched AS Watched
 from content c

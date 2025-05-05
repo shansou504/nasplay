@@ -60,6 +60,7 @@ sub init()
     m.timer.ObserveField("fire","callsettimestamp")
     m.settimestamptask = CreateObject("roSGNode", "SetTimeStampTask")
     m.markwatchedtask = CreateObject("roSGNode", "MarkWatchedTask")
+    m.markunwatchedtask = CreateObject("roSGNode", "MarkUnwatchedTask")
     m.videogroup = CreateObject("roSGNode", "VideoGroup")
     m.video = m.videogroup.findNode("video")
     m.video.ObserveField("state", "controlvideoplay")
@@ -75,6 +76,8 @@ sub init()
     m.seasonHandled = false
     m.episodeHandled = false
     m.lastWatchedEpisode = invalid
+    m.lastWatchedSeason = invalid
+    m.nextInSeason = false
 end sub
 
 ' SERVER SECTION
@@ -273,16 +276,17 @@ sub showseasons()
 end sub
 
 sub updateepisodes()
+    m.nextInSeason = false
     if m.deepLinkHandled then
         seasons = m.seasonlabellist.content.getChildren(-1, 0)
         if m.deepLinkEpisodeSeasonId = invalid then 'handle series deep link
-            watchedepisodes = ParseJson(m.mediatask.content)
-            watchedepisodes.SortBy("EpisodeNumber")
+            episodes = ParseJson(m.mediatask.content)
+            episodes.SortBy("EpisodeNumber")
             episodearray = CreateObject("roArray", 600, true)
             for each season in seasons
-                for each watchedepisode in watchedepisodes
-                    if watchedepisode.ContentType = "episode" and watchedepisode.SeasonID <> invalid and Str(watchedepisode.SeasonID).trim() = season.id and watchedepisode.TimeStamp > 0 then
-                        episodearray.Push(watchedepisode)
+                for each episode in episodes
+                    if episode.ContentType = "episode" and episode.SeasonID <> invalid and Str(episode.SeasonID).trim() = season.id and episode.Watched = 1 then
+                        episodearray.Push(episode)
                     end if
                 end for
             end for
@@ -294,9 +298,26 @@ sub updateepisodes()
             if lastWatchedSeasonID <> invalid then
                 for i = 0 to seasons.count() - 1
                     if seasons[i].ID = lastWatchedSeasonID then
-                        m.seasonHandled = true
-                        m.seasonlabellist.jumpToItem = i
-                        exit for
+                        m.lastWatchedSeason = m.seasonlabellist.content.getChild(i)
+                        if m.lastWatchedEpisode.EpisodeNumber + 1 <= m.lastWatchedSeason.NumEpisodes then
+                            m.nextInSeason = true   
+                            m.seasonlabellist.jumpToItem = i
+                            exit for
+                        else if i < seasons.count() - 1 then
+                            m.seasonlabellist.jumpToItem = i + 1
+                            exit for
+                        else
+                            'This is probably not the best time to mark unwatched. It should probably happen after
+                            'finishing the video like when we mark watched, but we don't have any of the logic to
+                            'identify if it's the last episode of the series there. One issue, regardless of where
+                            'we mark or unmark is we're not refreshing the mediatask.content after marking/unmarking
+                            'so if a user tries to deep link multpile times after marking/unmarking this logic won't
+                            'run correctly because the media we've store locally is out of sync with the database.
+                            m.markunwatchedtask.contenturi = m.server + "/markunwatched/" + Str(m.lastWatchedEpisode.SeriesID).trim()
+                            markunwatched()
+                            m.seasonlabellist.jumpToItem = 0
+                            exit for
+                        end if
                     end if
                 end for
             else
@@ -349,21 +370,25 @@ sub updateepisodenumber()
     m.episodeHandled = false
     if m.deepLinkHandled then
         episodes = m.episodemarkuplist.content.getChildren(-1, 0)
-        for i=0 to episodes.count() - 1
-            if m.deepLinkEpisodeEpisodeId <> invalid then
+        if m.deepLinkEpisodeEpisodeId <> invalid then
+            for i=0 to episodes.count() - 1
                 if episodes[i].id = m.deepLinkEpisodeEpisodeId then
                     m.episodeHandled = true
                     m.episodemarkuplist.jumpToItem = i
                     exit for
                 end if
-            else if m.lastWatchedEpisode <> invalid then
-                if episodes[i].id = Str(m.lastWatchedEpisode.ID).trim() then
-                    m.episodeHandled = true
-                    m.episodemarkuplist.jumpToItem = i
-                    exit for
-                end if
+            end for
+        else if m.lastWatchedEpisode <> invalid
+            if m.nextInSeason then
+                for i=0 to episodes.count() - 1
+                    if episodes[i].id = Str(m.lastWatchedEpisode.ID).trim() then
+                        m.episodeHandled = true
+                        m.episodemarkuplist.jumpToItem = i + 1
+                        exit for
+                    end if
+                end for
             end if
-        end for
+        end if
         if not m.episodeHandled then
             m.episodemarkuplist.jumpToItem = 0
         end if
@@ -429,6 +454,10 @@ end sub
 sub markwatched()
     m.markwatchedtask.contenturi = m.server + "/markwatched/" + m.video.content.id
     m.markwatchedtask.control = "RUN"
+end sub
+
+sub markunwatched()
+    m.markunwatchedtask.control = "RUN"
 end sub
 
 ' REMOTE CONTROL SECTION

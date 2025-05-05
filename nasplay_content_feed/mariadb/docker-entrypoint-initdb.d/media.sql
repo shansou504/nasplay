@@ -3,7 +3,7 @@
 --
 -- Host: localhost    Database: media
 -- ------------------------------------------------------
--- Server version       11.4.2-MariaDB-ubu2404
+-- Server version	11.4.2-MariaDB-ubu2404
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -128,7 +128,8 @@ SET character_set_client = utf8;
   1 AS `Url`,
   1 AS `StreamFormat`,
   1 AS `SubtitleUrl`,
-  1 AS `TimeStamp` */;
+  1 AS `TimeStamp`,
+  1 AS `Watched` */;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -308,10 +309,10 @@ USE `media`;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 SET collation_connection      = utf8mb4_uca1400_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`node`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `content_view` AS select `c`.`id` AS `ID`,`c`.`title` AS `Title`,`c`.`titleseason` AS `TitleSeason`,`c`.`series_id` AS `SeriesID`,`c`.`season_id` AS `SeasonID`,`c`.`secondarytitle` AS `SecondaryTitle`,`c`.`description` AS `Description`,`c`.`releasedate` AS `ReleaseData`,`c`.`episodenumber` AS `EpisodeNumber`,`c`.`numepisodes` AS `NumEpisodes`,`ct`.`contenttype` AS `ContentType`,`c`.`hdposterurl` AS `HDPosterUrl`,`c`.`fhdposterurl` AS `FHDPosterUrl`,`r`.`rating` AS `Rating`,`cat`.`category` AS `Categories`,concat(`s`.`server`,'/',`url`.`url`,'/',if(`c`.`contenttype_id` = 4,concat(`c`.`filenametitleshow`,'/',`c`.`filenametitleseason`,'/',`c`.`filename`),`c`.`filename`),'.',`f`.`filetype`) AS `Url`,`f`.`filetype` AS `StreamFormat`,concat(`s`.`server`,'/',`sub`.`subtitleurl`,'/',if(`c`.`contenttype_id` = 4,concat(`c`.`filenametitleshow`,'/'),''),`c`.`filename`,'.srt') AS `SubtitleUrl`,`c`.`timestamp` AS `TimeStamp` from (((((((`content` `c` left join `contenttype` `ct` on(`c`.`contenttype_id` = `ct`.`id`)) left join `rating` `r` on(`c`.`rating_id` = `r`.`id`)) left join `url` on(`c`.`url_id` = `url`.`id`)) left join `filetype` `f` on(`c`.`streamformat_id` = `f`.`id`)) left join `subtitleurl` `sub` on(`c`.`subtitleurl_id` = `sub`.`id`)) left join `server` `s` on(`c`.`server_id` = `s`.`id`)) left join `category` `cat` on(`c`.`category_id` = `cat`.`id`)) */;
+/*!50013 DEFINER=`node`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `content_view` AS select `c`.`id` AS `ID`,`c`.`title` AS `Title`,`c`.`titleseason` AS `TitleSeason`,`c`.`series_id` AS `SeriesID`,`c`.`season_id` AS `SeasonID`,`c`.`secondarytitle` AS `SecondaryTitle`,`c`.`description` AS `Description`,`c`.`releasedate` AS `ReleaseData`,`c`.`episodenumber` AS `EpisodeNumber`,`c`.`numepisodes` AS `NumEpisodes`,`ct`.`contenttype` AS `ContentType`,`c`.`hdposterurl` AS `HDPosterUrl`,`c`.`fhdposterurl` AS `FHDPosterUrl`,`r`.`rating` AS `Rating`,`cat`.`category` AS `Categories`,concat(`s`.`server`,'/',`url`.`url`,'/',if(`c`.`contenttype_id` = 4,concat(`c`.`filenametitleshow`,'/',`c`.`filenametitleseason`,'/',`c`.`filename`),`c`.`filename`),'.',`f`.`filetype`) AS `Url`,`f`.`filetype` AS `StreamFormat`,concat(`s`.`server`,'/',`sub`.`subtitleurl`,'/',if(`c`.`contenttype_id` = 4,concat(`c`.`filenametitleshow`,'/'),''),`c`.`filename`,'.srt') AS `SubtitleUrl`,`c`.`timestamp` AS `TimeStamp`,`c`.`watched` AS `Watched` from (((((((`content` `c` left join `contenttype` `ct` on(`c`.`contenttype_id` = `ct`.`id`)) left join `rating` `r` on(`c`.`rating_id` = `r`.`id`)) left join `url` on(`c`.`url_id` = `url`.`id`)) left join `filetype` `f` on(`c`.`streamformat_id` = `f`.`id`)) left join `subtitleurl` `sub` on(`c`.`subtitleurl_id` = `sub`.`id`)) left join `server` `s` on(`c`.`server_id` = `s`.`id`)) left join `category` `cat` on(`c`.`category_id` = `cat`.`id`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -325,4 +326,4 @@ USE `media`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-05-02 20:20:23
+-- Dump completed on 2025-05-05 19:45:27
