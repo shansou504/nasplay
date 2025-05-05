@@ -17,7 +17,8 @@ cat.category AS Categories,
 concat(s.server,url.url,'/',if(c.contenttype_id=4,concat(c.filenametitleshow,'/',c.filenametitleseason,'/',c.filename),c.filename),'.',f.filetype) AS Url,
 f.filetype AS StreamFormat,
 concat(s.server,sub.subtitleurl,'/',if(c.contenttype_id=4,concat(c.filenametitleshow,'/'),''),c.filename,'.srt') AS SubtitleUrl,
-c.`timestamp` AS `TimeStamp`
+c.`timestamp` AS `TimeStamp`,
+c.watched AS Watched
 from content c
 left join contenttype ct on c.contenttype_id = ct.id
 left join rating r on c.rating_id = r.id
