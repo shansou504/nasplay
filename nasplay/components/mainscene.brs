@@ -137,7 +137,7 @@ sub updatemedia()
     if m.movies <> invalid then
         m.moviecontent = CreateObject("roSGNode", "ContentNode")
         m.moviecontent.setField("id", "moviecontent")
-        if m.movies.count() > 1 then
+        if m.movies.count() > 0 then
             for i = m.movies.count() - 1 to 0 step -1
                 if m.movies[i].ContentType <> "movie" then
                     m.movies.Delete(i)
@@ -180,7 +180,7 @@ sub updatemedia()
     if m.series <> invalid then
         m.seriescontent = CreateObject("roSGNode", "ContentNode")
         m.seriescontent.setField("id", "seriescontent")
-        if m.series.count() > 1 then
+        if m.series.count() > 0 then
             for i = m.series.count() - 1 to 0 step -1
                 if m.series[i].ContentType <> "series" then
                     m.series.Delete(i)
@@ -258,7 +258,7 @@ sub showseasons()
     m.seasoncontent = CreateObject("roSGNode", "ContentNode")
     m.seasoncontent.setField("id", "seasoncontent")
     if m.seasons <> invalid then
-        if m.seasons.count() > 1
+        if m.seasons.count() > 0
             for i = m.seasons.count() - 1 to 0 step -1
                 if m.seasons[i].ContentType <> "season" OR Str(m.seasons[i].SeriesId).Trim() <> m.selectedseries.id then                
                     m.seasons.Delete(i)
@@ -339,7 +339,7 @@ sub updateepisodes()
     m.episodecontent = CreateObject("roSGNode", "ContentNode")
     m.episodecontent.setField("id", "episodescontent")
     if m.episodes <> invalid then
-        if m.episodes.count() > 1
+        if m.episodes.count() > 0
             for i = m.episodes.count() - 1 to 0 step -1
                 if m.episodes[i].ContentType <> "episode" OR Str(m.episodes[i].SeasonID).Trim() <> m.seasonfocused.id then
                     m.episodes.Delete(i)
