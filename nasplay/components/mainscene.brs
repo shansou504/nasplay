@@ -1,9 +1,15 @@
 sub init()
+    m.content_feed_certification = "https://shansou504.github.io/nasplay_content_feed_certification/content_feed_certification.json"
     m.server = getserver()
     m.top.id = "MainScene"
     m.top.backgroundURI = "pkg:/images/background_1280x720.png"
     m.mediatask = CreateObject("roSGNode", "MediaTask")
-    m.mediatask.contenturi = m.server + "/media"
+    if m.server = m.content_feed_certification
+        m.mediatask.contenturi = m.server
+    else
+        m.mediatask.contenturi = m.server + "/media"
+    end if
+        
     m.mediatask.ObserveField("content","updatemedia")
     m.mediatask.control = "RUN"
     
@@ -82,11 +88,13 @@ end sub
 
 ' SERVER SECTION
 Function getserver() As Dynamic
-     m.savedserver = CreateObject("roRegistrySection", "savedserver")
-     if m.savedserver.Exists("address")
-         return m.savedserver.Read("address")
-     endif
-     return "http://localhost:1234/"
+    m.savedserver = CreateObject("roRegistrySection", "savedserver")
+    if m.savedserver.Exists("address")
+        if m.savedserver.Read("address") <> ""
+            return m.savedserver.Read("address")
+        end if
+    end if
+    return m.content_feed_certification
 End Function
 
 sub showdialog()
