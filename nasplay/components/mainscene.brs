@@ -285,6 +285,11 @@ end sub
 
 sub updateepisodes()
     m.nextInSeason = false
+    m.seasonfocused = m.seasonlabellist.content.getChild(m.seasonlabellist.itemFocused)
+    m.numepisodes = Str(m.seasonfocused.NumEpisodes).trim()
+    m.episodes = ParseJson(m.mediatask.content)
+    m.episodecontent = CreateObject("roSGNode", "ContentNode")
+    m.episodecontent.setField("id", "episodescontent")
     if m.deepLinkHandled then
         seasons = m.seasonlabellist.content.getChildren(-1, 0)
         if m.deepLinkEpisodeSeasonId = invalid then 'handle series deep link
@@ -342,10 +347,6 @@ sub updateepisodes()
             end for
         end if
     end if
-    m.seasonfocused = m.seasonlabellist.content.getChild(m.seasonlabellist.itemFocused)
-    m.episodes = ParseJson(m.mediatask.content)
-    m.episodecontent = CreateObject("roSGNode", "ContentNode")
-    m.episodecontent.setField("id", "episodescontent")
     if m.episodes <> invalid then
         if m.episodes.count() > 0
             for i = m.episodes.count() - 1 to 0 step -1
@@ -373,7 +374,7 @@ sub showepisodes()
 end sub
 
 sub updateepisodenumber()
-    m.episodenumber.text = m.episodemarkuplist.content.getChild(m.episodemarkuplist.itemFocused).EpisodeNumber + " of " + Str(m.episodemarkuplist.content.getChildCount()).trim()
+    m.episodenumber.text = m.episodemarkuplist.content.getChild(m.episodemarkuplist.itemFocused).EpisodeNumber + " of " + m.numepisodes
     m.episodenumber.visible = true
     m.episodeHandled = false
     if m.deepLinkHandled then

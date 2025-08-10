@@ -1,7 +1,7 @@
 title=nasplay
 major_version=1
 minor_version=0
-build_version=00000
+build_version=00001
 
 mm_icon_focus_hd=pkg:/images/nasplay_290x218.png
 mm_icon_focus_fhd=pkg:/images/nasplay_540x405.png
@@ -16,7 +16,6 @@ server=pkg:/images/server.png
 tv=pkg:/images/tv.png
 icons8-picture-154x231=pkg:/images/icons8-picture-154x231.png
 icons8-picture-300x169=pkg:/images/icons8-picture-300x169.png
-
 
 splash_color=#662D91
 splash_min_time=1000
