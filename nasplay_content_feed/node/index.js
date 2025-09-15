@@ -27,7 +27,7 @@ async function runQuery(qry, args) {
     }
 }
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
 
 app.get('/media', async function (req, res) {
     let args = [];
@@ -53,6 +53,13 @@ app.get('/settimestamp/:id/timestamp/:ts', async function (req, res) {
     args.push(req.params.ts);
     args.push(req.params.id);
     const data = await runQuery('UPDATE content SET timestamp = ? WHERE id = ?;', args);
+    res.send('OK');
+});
+
+app.post('/setserver', async function (req, res) {
+    let args = [];
+    args.push(req.body.server);
+    const data = await runQuery('UPDATE server SET server = ? WHERE id = 1;', args);
     res.send('OK');
 });
 

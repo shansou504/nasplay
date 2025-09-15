@@ -239,8 +239,12 @@ CREATE TABLE `server` (
 
 LOCK TABLES `server` WRITE;
 /*!40000 ALTER TABLE `server` DISABLE KEYS */;
+set autocommit=0;
+INSERT INTO `server` VALUES
+(1,'http://localhost:8088');
 /*!40000 ALTER TABLE `server` ENABLE KEYS */;
 UNLOCK TABLES;
+commit;
 
 --
 -- Table structure for table `subtitleurl`

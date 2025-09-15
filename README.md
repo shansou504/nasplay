@@ -3,7 +3,7 @@
 nasplay is a minimalist [Roku](https://www.roku.com/) app similar to [Plex](https://www.plex.tv/) or [Jellyfin](https://jellyfin.org/) that allows you to play content from your local media server. This repository hosts both the Roku app as well as a containerized backend framework for delivering your content. For testing and development on Roku see [how to activate developer mode](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md) and the [Visual Studio Brightscript Extension](https://marketplace.visualstudio.com/items?itemName=RokuCommunity.brightscript) for debugging.
 ## Roku app
 ### *Configuration*
-On the main menu, you can set your media server's IP address and port (default 8088). For example: ```http://192.168.1.2:8088```
+On the main menu, you can set your media server's IP address and port (default 8088). For example: ```http://192.168.1.2:8088```. Ensure there is no trailing '/'.
 ### *Content*
 Content must be provided by the user and added to the backend database. A few useful tools one might use are [HandBrake](https://handbrake.fr/) and [MakeMKV](https://www.makemkv.com/). To aid with metadata [The Movie Database API](https://developer.themoviedb.org/docs/getting-started) is extremely helpful.
 ## Backend Framework
@@ -14,7 +14,7 @@ Aside from the backend server, the actual media will need to be hosted as well. 
 ### *Media Server*
 Your media server needs to have media in the directory structure as follows in order for the backend server to deliver it and for Roku app to find it. Below ```filename``` needs to match the ```filename``` column in the ```content``` table of the database. The same goes for ```filenametitleshow``` and ```filenametitleseason```.
 ```
-/Media
+Media
 |—Movies
 |    |—filename.mp4
 |—Shows
@@ -31,7 +31,7 @@ Your media server needs to have media in the directory structure as follows in o
 ### *MariaDB*
 The database is created from ```media.sql``` when the container is started. It has the required structure, but is lacking configuration and content.
 #### *Configuration*
-The ```server``` table will need to have a record added that matches the same IP address and port used in the Roku app. This will be used along with the ```url``` table to generate URLs for the Roku to fetch the actual media.
+The ```server``` table will need to have a record added that matches the same IP address and port used in the Roku app. Setting the server in the Roku app will write the value to the first record in this table. This will be used along with the ```url``` table to generate URLs for the Roku to fetch the actual media.
 
 The default ```user``` and ```password``` for the database are both 'node'. The root password for the database is randomly generated. These values are set in the ```compose.yaml``` and if modified must also be updated in ```index.js```.
 #### *Content*

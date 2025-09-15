@@ -4,6 +4,7 @@ sub init()
     m.top.id = "MainScene"
     m.top.backgroundURI = "pkg:/images/background_1280x720.png"
     m.mediatask = CreateObject("roSGNode", "MediaTask")
+    m.setservertask = CreateObject("roSGNode", "SetServerTask")
     if m.server = m.content_feed_certification
         m.mediatask.contenturi = m.server
     else
@@ -111,6 +112,10 @@ sub setserver()
     m.server = getserver()
     m.mediatask.contenturi = m.server + "/media"
     m.mediatask.control = "RUN"
+    m.setservertask.contenturi = m.server + "/setserver"
+    assocArray = { server: m.server }
+    m.setservertask.server = FormatJson(assocArray)
+    m.setservertask.control = "RUN"
     m.keyboarddialog.close = true
     m.menugroup.setFocus(true)
 end sub
