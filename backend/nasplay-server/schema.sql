@@ -21,8 +21,8 @@ CREATE TABLE content (
         "tmdb_id"       INTEGER,
         "roku_contenttype_id"   INTEGER NOT NULL,
         "title" TEXT NOT NULL,
-        "series_id"     INTEGER,
-        "season_id"     INTEGER,
+        "series_id"     TEXT,
+        "season_id"     TEXT,
         "titleseason"   TEXT,
         "secondarytitle"        TEXT,
         "description"   TEXT,
@@ -44,6 +44,4 @@ CREATE TABLE content (
         PRIMARY KEY("id" AUTOINCREMENT)
 );
 DROP VIEW IF EXISTS content_view;
-DROP VIEW IF EXISTS details_view;
-CREATE VIEW content_view AS SELECT c.uuid ID, c.title Title, ct.contenttype ContentType, c.hdposterurl HDPosterUrl FROM content c JOIN contenttype ct ON c.roku_contenttype_id = ct.roku_id WHERE c.roku_contenttype_id IN (1,2);
-CREATE VIEW details_view AS SELECT c.uuid ID, ct.contenttype ContentType, c.title Title, c.titleseason TitleSeason, c.season_id SeasonID, c.secondarytitle SecondaryTitle, c.description Description, c.hdposterurl HDPosterUrl, c.fhdposterurl FHDPosterUrl, c.releasedate ReleaseDate, r.rating Rating, c.episodenumber EpisodeNumber, concat(s.server, '/play/', c.uuid) Url, concat(s.server, '/subtitle/', c.uuid) SubtitleUrl, c.timestamp Timestamp, c.watched Watched FROM content c LEFT JOIN contenttype ct ON c.roku_contenttype_id = ct.roku_id LEFT JOIN rating r ON c.rating_id = r.id LEFT JOIN server s ON c.server_id = s.id;
+CREATE VIEW content_view AS SELECT c.uuid ID, ct.contenttype ContentType, c.title Title, c.titleseason TitleSeason, c.season_id SeasonID, c.series_id SeriesID, c.secondarytitle SecondaryTitle, c.description Description, c.hdposterurl HDPosterUrl, c.fhdposterurl FHDPosterUrl, c.releasedate ReleaseDate, r.rating Rating, c.episodenumber EpisodeNumber, concat(s.server, '/play/', c.uuid) Url, concat(s.server, '/subtitle/', c.uuid) SubtitleUrl, c.timestamp Timestamp, c.watched Watched FROM content c LEFT JOIN contenttype ct ON c.roku_contenttype_id = ct.roku_id LEFT JOIN rating r ON c.rating_id = r.id LEFT JOIN server s ON c.server_id = s.id;

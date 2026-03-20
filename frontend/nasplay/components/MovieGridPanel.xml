@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<component name = "MovieGridPanel" extends = "GridPanel">
+    <script type = "text/brightscript" uri = "MovieGridPanel.brs"></script>
+    <children>
+        <PosterGrid
+            id = "MoviePosterGrid"
+            basePostersize = "[154,231]"
+            numColumns = "4"
+            numRows = "3"
+            itemSpacing = "[20,20]"
+        />
+    </children>
+</component>

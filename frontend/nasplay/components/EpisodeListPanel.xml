@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<component name = "EpisodeListPanel" extends = "ListPanel" >
+    <script type = "text/brightscript" uri = "EpisodeListPanel.brs"></script>
+    <children>
+        <LabelList
+            id = "EpisodeLabelList"
+        >
+        </LabelList>
+    </children>
+</component>

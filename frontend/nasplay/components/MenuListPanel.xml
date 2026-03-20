@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<component name = "MenuListPanel" extends = "ListPanel">
+<script type = "text/brightscript" uri = "MenuListPanel.brs"></script>
+    <children>
+        <LabelList
+            id = "MenuLabelList"
+        >
+            <ContentNode
+                id = "MenuLabelListContent"
+                role = "content"
+            >
+                <ContentNode title = "Shows"/>
+                <ContentNode title = "Movies"/>
+                <ContentNode title = "Server"/>
+            </ContentNode>
+        </LabelList>
+    </children>
+</component>

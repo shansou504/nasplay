@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<component name = "EpisodeListPanelCOPY" extends = "ListPanel" initialFocus = "EpisodeMarkupList">
+    <script type = "text/brightscript" uri = "EpisodeListPanelCOPY.brs"></script>
+    <children>
+        <MarkupList
+            id = "EpisodeMarkupList"
+            translation = "[20,20]"
+            itemComponentName = "EpisodeMarkupListItem"
+            itemSize = "[520,104]"
+            itemSpacing = "[0,12]"
+        />
+    </children>
+</component>

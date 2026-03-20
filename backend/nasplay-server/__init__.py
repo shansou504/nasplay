@@ -1,31 +1,28 @@
 from flask import Flask, request, send_file
 from pathlib import Path
-
 def create_app():
-    
     app = Flask(__name__, instance_relative_config=True)
-
     Path(app.instance_path).mkdir(mode=0o755, parents=True, exist_ok=True)
-
     app.config.from_mapping(
         MEDIAPATH=Path("/mnt/Media/Videos/"),
         DATABASE=Path(app.instance_path).joinpath("media.db"),
     )
-
     from . import db
     db.init_app(app)
 
-    
     @app.route("/content", methods=["GET"])
     def content():
         try:
             sql = """SELECT *
                        FROM content_view
                    ORDER BY ContentType ASC
+                          , EpisodeNumber ASC
                           , Title ASC"""
             args = ()
             data = db.sql_call(sql, args)
             if db.validate_data(data):
+                for d in data:
+                    d = db.format_subtitle(d)
                 return data
             else:
                 print("Data could not be validated")
@@ -34,15 +31,14 @@ def create_app():
             print("Could not get content")
             print(e)
             return "", 500
-    
-
+        
     @app.route("/server", methods=["POST"])
     def server():
         try:
             server = request.get_data(as_text=True)
             sql = """UPDATE server
                         SET server = ?
-                    WHERE id = '1'"""
+                      WHERE id = '1'"""
             args = (server,)
             db.sql_call(sql, args)
             return "", 200
@@ -50,73 +46,7 @@ def create_app():
             print("Could not set server")
             print(e)
             return "", 500
-    
-    
-    @app.route("/details", methods=["GET"])
-    def details():
-        try:
-            id = request.args["id"] 
-            data = db.get_details_metadata(id)
-            if db.validate_data(data):
-                return data
-            else:
-                return "", 500
-        except Exception as e:
-            print("Could not get details")
-            print(e)
-            return "", 500
-    
-
-    @app.route("/seasons", methods=["GET"])
-    def seasons():
-        try:
-            id = request.args["id"]
-            sql = """SELECT uuid AS ID,
-                            title AS Title
-                       FROM content
-                      WHERE series_id = ?
-                        AND roku_contenttype_id = '3'
-                   ORDER BY title ASC"""
-            args = (id,)
-            data = db.sql_call(sql, args)
-            if db.validate_data(data):
-                return data
-            else:
-                print("Data could not be validated")
-                return "", 500
-        except Exception as e:
-            print("Could not get seasons")
-            print(e)
-            return "", 500
-    
-
-    @app.route("/episodes", methods=["GET"])
-    def episodes():
-        try:
-            id = request.args["id"]
-            sql = """SELECT uuid
-                       FROM content
-                      WHERE season_id = ?
-                        AND roku_contenttype_id = 4
-                   ORDER BY episodenumber ASC"""
-            args = (id,)
-            data = db.sql_call(sql, args)
-            if db.validate_data(data):
-                episodes = []
-                for i in range(len(data)):
-                    res = db.get_details_metadata(data[i]["uuid"])
-                    if db.validate_data(res): 
-                        episodes.append(res[0])
-                return episodes
-            else:
-                print("Data could not be validated")
-                return "", 500
-        except Exception as e:
-            print("Could not get seasons")
-            print(e)
-            return "", 500
-    
-
+        
     @app.route("/play", methods=["GET"])
     def play():
         try:
@@ -150,8 +80,7 @@ def create_app():
             print("Could not get media")
             print(e)
             return "", 500
-    
-
+        
     @app.route("/subtitle", methods=["GET"])
     def subtitle():
         try:
@@ -183,8 +112,7 @@ def create_app():
             print("Could not get subtitle")
             print(e)
             return "", 500
-    
-
+        
     @app.route("/timestamp", methods=["GET", "POST"])
     def timestamp():
         print(f"reached {request.path} {request.method} request")
@@ -224,6 +152,4 @@ def create_app():
                     return "", 500
             case _:
                 return "", 500
-
-
     return app

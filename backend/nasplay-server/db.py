@@ -1,22 +1,15 @@
 import sqlite3
-
 import click
 from flask import current_app, g
-
 def get_db():
     if "db" not in g:
         g.db = sqlite3.connect(
             current_app.config["DATABASE"]
         )
         g.db.row_factory = sqlite3.Row
-
     return g.db
-
-
 def validate_data(data):
     return len(data) > 0
-
-
 def sql_call(sql, args):
     db = get_db()
     cur = db.cursor()
@@ -33,21 +26,13 @@ def sql_call(sql, args):
     except:
         pass
     return rows
-
-
-def get_details_metadata(id):
-    try:
-        sql = f"""SELECT *
-                    FROM details_view
-                    WHERE ID = ?"""
-        args = (id,)
-        data = sql_call(sql, args)
+def format_subtitle(data):
+    try:        
         if validate_data(data):
-            index = 0
-            subtitle_url = data[index]["SubtitleUrl"]
-            data[index]["SubtitleTracks"] = [{"language": "eng",
+            subtitle_url = data["SubtitleUrl"]
+            data["SubtitleTracks"] = [{"language": "eng",
                 "description": "English", "trackname": subtitle_url}]
-            del data[index]["SubtitleUrl"]
+            del data["SubtitleUrl"]
             return data
         else:
             print("Data could not be validated")
@@ -56,8 +41,6 @@ def get_details_metadata(id):
         print("Could not get metadata")
         print(e)
         return ""
-
-
 def get_roku_contenttype_id(id):
     try:
         sql = """SELECT roku_contenttype_id
@@ -75,28 +58,20 @@ def get_roku_contenttype_id(id):
         print("Could not get ContentType")
         print(e)
         return -1
-
-
 def close_db(e=None):
     db = g.pop("db", None)
-
     if db is not None:
         db.close()
-
 def init_db():
     db = get_db()
-
     print(current_app.root_path)
     with current_app.open_resource("schema.sql") as f:
         db.executescript(f.read().decode("utf8"))
-
-
 @click.command("init-db")
 def init_db_command():
     click.echo("Clearing the existing data and creati new tables.")
     init_db()
     click.echo("Initialized the database.")
-
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
