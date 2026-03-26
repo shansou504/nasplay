@@ -1,10 +1,10 @@
 from flask import Flask, request, send_file
-from pathlib import Path
+from pathlib import Path, PurePath
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
     Path(app.instance_path).mkdir(mode=0o755, parents=True, exist_ok=True)
     app.config.from_mapping(
-        MEDIAPATH=Path("/mnt/Media/Videos/"),
+        MEDIAPATH=PurePath("d:/Media/Videos/"),
         DATABASE=Path(app.instance_path).joinpath("media.db"),
     )
     from . import db
@@ -68,7 +68,7 @@ def create_app():
                 args = (id,)
                 data = db.sql_call(sql, args)
                 if db.validate_data(data):
-                    file = app.config.MEDIAPATH / data[0]["filepath"]
+                    file = app.config["MEDIAPATH"] / data[0]["filepath"]
                     return send_file(file, as_attachment=True)
                 else:
                     print("Data could not be validated")
@@ -100,7 +100,7 @@ def create_app():
                 args = (id,)
                 data = db.sql_call(sql, args)
                 if db.validate_data(data):
-                    file = app.config.MEDIAPATH / data[0]["filepath"]
+                    file = app.config["MEDIAPATH"] / data[0]["filepath"]
                     return send_file(file, as_attachment=True)
                 else:
                     print("Data could not be validated")
@@ -115,7 +115,6 @@ def create_app():
         
     @app.route("/timestamp", methods=["GET", "POST"])
     def timestamp():
-        print(f"reached {request.path} {request.method} request")
         match request.method:
             case "GET":
                 try:

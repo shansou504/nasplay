@@ -44,4 +44,28 @@ CREATE TABLE content (
         PRIMARY KEY("id" AUTOINCREMENT)
 );
 DROP VIEW IF EXISTS content_view;
-CREATE VIEW content_view AS SELECT c.uuid ID, ct.contenttype ContentType, c.title Title, c.titleseason TitleSeason, c.season_id SeasonID, c.series_id SeriesID, c.secondarytitle SecondaryTitle, c.description Description, c.hdposterurl HDPosterUrl, c.fhdposterurl FHDPosterUrl, c.releasedate ReleaseDate, r.rating Rating, c.episodenumber EpisodeNumber, concat(s.server, '/play/', c.uuid) Url, concat(s.server, '/subtitle/', c.uuid) SubtitleUrl, c.timestamp Timestamp, c.watched Watched FROM content c LEFT JOIN contenttype ct ON c.roku_contenttype_id = ct.roku_id LEFT JOIN rating r ON c.rating_id = r.id LEFT JOIN server s ON c.server_id = s.id;
+CREATE VIEW content_view AS 
+     SELECT c.uuid ID
+          , ct.contenttype ContentType
+          , c.title Title
+          , c.titleseason TitleSeason
+          , c.season_id SeasonID
+          , c.series_id SeriesID
+          , c.secondarytitle SecondaryTitle
+          , c.description Description
+          , c.hdposterurl HDPosterUrl
+          , c.fhdposterurl FHDPosterUrl
+          , c.releasedate ReleaseDate
+          , r.rating Rating
+          , c.episodenumber EpisodeNumber
+          , concat(s.server, '/play?id=', c.uuid) Url
+          , concat(s.server, '/subtitle?id=', c.uuid) SubtitleUrl
+          , c.timestamp Timestamp
+          , c.watched Watched
+       FROM content c
+            LEFT JOIN contenttype ct
+                   ON c.roku_contenttype_id = ct.roku_id
+            LEFT JOIN rating r
+                   ON c.rating_id = r.id
+            LEFT JOIN server s
+                   ON c.server_id = s.id;

@@ -81,11 +81,20 @@ sub UpdateSecondPanel()
     else if title = "Movies" then
         m.movieGridPanel = CreateObject("roSGNode", "MovieGridPanel")
         m.movieGridPanel.grid.content = m.movies
+        m.movieGridPanel.grid.observeField("itemFocused", "CreateMovieVideo")
+        m.movieGridPanel.grid.observeField("itemSelected", "PlayVideo")
         m.menuListPanel.nextPanel = m.movieGridPanel
     else
         ' Remove right panel for now. This will get replaced with "Server" option
         m.menuListPanel.nextPanel = invalid
     end if
+end sub
+
+sub CreateMovieVideo()
+    m.videoNode = CreateObject("roSGNode", "Video")
+    content = m.movieGridPanel.grid.content.getChild(m.movieGridPanel.grid.itemFocused)
+    m.videoNode.content = content.clone(true)
+    m.videoNode.control = "prebuffer"
 end sub
 
 sub CreateSeasonListPanel()
@@ -114,5 +123,40 @@ sub CreateEpisodeListPanel()
     end for
     m.episodeListPanel = CreateObject("roSGNode", "EpisodeListPanel")
     m.episodeListPanel.list.content = m.filteredEpisodes
+    m.episodeListPanel.list.observeField("itemFocused", "CreateEpisodeVideo")
+    m.episodeListPanel.list.observeField("itemSelected", "PlayVideo")
     m.seasonListPanel.nextPanel = m.episodeListPanel
 end sub
+
+sub CreateEpisodeVideo()
+    m.videoNode = CreateObject("roSGNode", "Video")
+    content = m.episodeListPanel.list.content.getChild(m.episodeListPanel.list.itemFocused)
+    m.videoNode.content = content.clone(true)
+    m.videoNode.control = "prebuffer"
+end sub
+
+sub PlayVideo()
+    m.top.appendChild(m.videoNode)
+    m.videoNode.setFocus(true)
+    m.videoNode.control = "play"
+end sub
+
+function OnkeyEvent(key as String, press as Boolean) as Boolean
+    result = false
+    if press
+        if key = "back"
+            if m.videoNode <> invalid and m.videoNode.hasFocus() then
+                m.videoNode.control = "stop"
+                m.top.removeChild(m.videoNode)
+                m.videoNode = invalid
+                if m.top.panelSet.getChild(m.top.panelSet.getChildCount() - 1).id = "MovieGridPanel" then
+                    m.movieGridPanel.setFocus(true)
+                else
+                    m.episodeListPanel.setFocus(true)
+                end if
+                result = true
+            end if
+        end if
+    end if
+    return result
+end function
