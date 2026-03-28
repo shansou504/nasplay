@@ -35,7 +35,8 @@ def create_app():
     @app.route("/server", methods=["POST"])
     def server():
         try:
-            server = request.get_data(as_text=True)
+            js = request.get_json()
+            server = js["server"]
             sql = """UPDATE server
                         SET server = ?
                       WHERE id = '1'"""

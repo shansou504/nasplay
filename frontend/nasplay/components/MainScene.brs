@@ -1,27 +1,65 @@
 sub init()
     m.top.id = "MainScene"
     m.top.backgroundURI = "pkg:/images/rsgde_bg_hd.jpg"
-    ' Need to update to actual server address or use a config file
-    m.server = "http://localhost:8000/"
-    STOP
+    m.content_feed_certification = "https://shansou504.github.io/nasplay_content_feed_certification/content_feed_certification.json"
+    m.server = GetServer()
+    m.setServerTask = CreateObject("roSGNode", "SetServerTask")
     m.mainContentTask = CreateObject("roSGNode", "MainContentTask")
     m.mainContentTask.observeField("content", "OnMainContentTaskContent")
-    m.mainContentTask.contenturi = m.server + "content"
+    if m.server = m.content_feed_certification
+        m.mainContentTask.contenturi = m.server
+    else
+        m.mainContentTask.contenturi = m.server + "/content"
+    end if
     m.mainContentTask.control = "RUN"
 end sub
 
+Function GetServer() As Dynamic
+    m.savedServer = CreateObject("roRegistrySection", "SavedServer")
+    if m.savedServer.Exists("address")
+        if m.savedServer.Read("address") <> ""
+            return m.savedServer.Read("address")
+        else
+            return m.content_feed_certification
+        end if
+    else
+        return m.content_feed_certification
+    end if
+End Function
+
+sub SetServer()
+    m.savedServer.Write("address", m.keyboardDialog.text)
+    m.savedServer.flush()
+    m.server = GetServer()
+    m.setServerTask.contenturi = m.server + "/server"
+    assocArray = {
+        server: m.server
+    }
+    m.setServerTask.server = FormatJson(assocArray)
+    m.setServerTask.control = "RUN"
+    m.keyboardDialog.message = ["Saved. Please exit and reopen the app."]
+end sub
+
 sub OnMainContentTaskContent()
-    m.json = ParseJson(m.mainContentTask.content)
-    m.series = GetContent("series")
-    m.seasons = GetContent("season")
-    m.episodes = GetContent("episode")
-    m.movies = GetContent("movie")
+    m.series = invalid
+    m.seasons = invalid
+    m.episodes = invalid
+    m.movies = invalid
+    if m.mainContentTask.content <> invalid and m.mainContentTask.content <> "" then
+        m.json = ParseJson(m.mainContentTask.content)
+        m.series = GetContent("series")
+        m.seasons = GetContent("season")
+        m.episodes = GetContent("episode")
+        m.movies = GetContent("movie")
+    end if
     m.menuListPanel = m.top.panelSet.createChild("MenuListPanel")
     m.menuListPanel.observeField("createNextPanelIndex", "UpdateSecondPanel")
     ' SeriesGridPanel is defined here so it shows up the first time the app is opened.
     ' It is removed and recreated each time the main menu highlights "Shows"
     m.seriesGridPanel = CreateObject("roSGNode", "SeriesGridPanel")
-    m.seriesGridPanel.grid.content = m.series
+    if m.series <> invalid then
+        m.seriesGridPanel.grid.content = m.series
+    end if
     m.seriesGridPanel.observeField("createNextPanelIndex", "CreateSeasonListPanel")
     m.top.panelSet.appendChild(m.seriesGridPanel)
     m.menuListPanel.setFocus(true)
@@ -75,17 +113,31 @@ sub UpdateSecondPanel()
     title = m.menuListPanel.list.content.getChild(m.menuListPanel.createNextPanelIndex).Title
     if title = "Shows" then
         m.seriesGridPanel = CreateObject("roSGNode", "SeriesGridPanel")
-        m.seriesGridPanel.grid.content = m.series
+        if m.series <> invalid then
+            m.seriesGridPanel.grid.content = m.series
+        end if
         m.seriesGridPanel.observeField("createNextPanelIndex", "CreateSeasonListPanel")
         m.menuListPanel.nextPanel = m.seriesGridPanel
     else if title = "Movies" then
         m.movieGridPanel = CreateObject("roSGNode", "MovieGridPanel")
-        m.movieGridPanel.grid.content = m.movies
+        if m.movies <> invalid then
+            m.movieGridPanel.grid.content = m.movies
+        end if
         m.movieGridPanel.grid.observeField("itemFocused", "CreateMovieVideo")
         m.movieGridPanel.grid.observeField("itemSelected", "PlayVideo")
         m.menuListPanel.nextPanel = m.movieGridPanel
+    else if title = "Server" then
+        m.keyboardDialogPanel = CreateObject("roSGNode", "KeyboardDialogPanel")
+        m.keyboardDialog = CreateObject("roSGNode", "StandardKeyboardDialog")
+        m.keyboardDialogPanel.appendChild(m.keyboardDialog)
+        m.keyboardDialog.ObserveField("buttonSelected","SetServer")
+        m.keyboardDialog.title = "Server"
+        m.keyboardDialog.buttons = ["Save"]
+        ' I don't know why this line is here. I'll probably delete it
+        m.top.dialog = m.keyboardDialog
+        m.menuListPanel.nextPanel = m.keyboardDialogPanel
     else
-        ' Remove right panel for now. This will get replaced with "Server" option
+        ' Prevent crash
         m.menuListPanel.nextPanel = invalid
     end if
 end sub

@@ -3,6 +3,6 @@
     <script type = "text/brightscript" uri = "MainContentTask.brs"/>
     <interface>
         <field id = "contenturi" type = "uri"/>
-        <field id = "content" type = "string"/>
+        <field id = "content" type = "string" alwaysNotify = "true"/>
     </interface>
 </component>
