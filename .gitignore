@@ -1,5 +1,5 @@
 backend/.venv/
-backend/nasplay-server/__pycache__/
+backend/nasplay_server/__pycache__/
 backend/instance/
 backend/gunicorn.ctl
 frontend/nasplay/.vscode/
