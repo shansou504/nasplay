@@ -4,6 +4,7 @@ sub init()
     m.content_feed_certification = "https://shansou504.github.io/nasplay_content_feed_certification/content_feed_certification.json"
     m.server = GetServer()
     m.setServerTask = CreateObject("roSGNode", "SetServerTask")
+    m.setTimestampTask = CreateObject("roSGNode", "SetTimestampTask")
     m.mainContentTask = CreateObject("roSGNode", "MainContentTask")
     m.mainContentTask.observeField("content", "OnMainContentTaskContent")
     if m.server = m.content_feed_certification
@@ -191,6 +192,26 @@ sub PlayVideo()
     m.top.appendChild(m.videoNode)
     m.videoNode.setFocus(true)
     m.videoNode.control = "play"
+    timestamp = m.videoNode.content.Timestamp
+    if timestamp <> invalid and timestamp > 0
+        m.videoNode.seek = timestamp
+    end if
+    m.playbackTimer = CreateObject("roSGNode", "Timer")
+    m.playbackTimer.duration = 30
+    m.playbackTimer.repeat = true
+    m.playbackTimer.observeField("fire", "SetTimestamp")
+    m.playbackTimer.control = "start"
+end sub
+
+sub SetTimestamp()
+    if m.videoNode = invalid then return
+    assocArray = {
+        id: m.videoNode.content.id,
+        timestamp: m.videoNode.position
+    }
+    m.setTimestampTask.contenturi = m.server + "/timestamp"
+    m.setTimestampTask.content = FormatJson(assocArray)
+    m.setTimestampTask.control = "RUN"
 end sub
 
 function OnkeyEvent(key as String, press as Boolean) as Boolean
@@ -198,6 +219,9 @@ function OnkeyEvent(key as String, press as Boolean) as Boolean
     if press
         if key = "back"
             if m.videoNode <> invalid and m.videoNode.hasFocus() then
+                SetTimestamp()
+                m.playbackTimer.control = "stop"
+                m.playbackTimer = invalid
                 m.videoNode.control = "stop"
                 m.top.removeChild(m.videoNode)
                 m.videoNode = invalid
