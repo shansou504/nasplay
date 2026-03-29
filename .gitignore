@@ -1,10 +1,8 @@
 backend/.venv/
 backend/nasplay_server/__pycache__/
 backend/instance/
-backend/gunicorn.ctl
 frontend/nasplay/.vscode/
 .claude/
-CLAUDE.md
 launch.json
 out/
 dev-doc/
