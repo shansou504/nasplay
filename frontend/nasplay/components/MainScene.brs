@@ -17,10 +17,10 @@ sub init()
     m.menuListPanel.observeField("createNextPanelIndex", "UpdateSecondPanel")
     m.seriesGridPanel = CreateObject("roSGNode", "SeriesGridPanel")
     m.seriesGridPanel.observeField("createNextPanelIndex", "CreateSeasonListPanel")
+    m.filteredSeasons = CreateObject("roSGNode", "ContentNode")
     m.seasonListPanel = CreateObject("roSGNode", "SeasonListPanel")    
     m.seasonListPanel.observeField("createNextPanelIndex", "CreateEpisodeListPanel")
     m.filteredEpisodes = CreateObject("roSGNode", "ContentNode")
-    m.filteredSeasons = CreateObject("roSGNode", "ContentNode")
     m.episodeListPanel = CreateObject("roSGNode", "EpisodeListPanel")
     m.episodeListPanel.list.observeField("itemFocused", "CreateEpisodeVideo")
     m.episodeListPanel.list.observeField("itemSelected", "PlayVideo")
@@ -158,11 +158,15 @@ sub CreateMovieDetails()
 end sub
 
 sub CreateSeasonListPanel()
+    if m.filteredSeasons.getChildCount() > 0 then
+        children = m.filteredSeasons.getChildren(-1, 0)
+        m.filteredSeasons.removeChildren(children)
+    end if
     currentSeriesGridChild = m.seriesGridPanel.grid.content.getChild(m.seriesGridPanel.createNextPanelIndex)
     seasons = m.seasons.getChildren(-1, 0)
     for each season in seasons
         if season.SeriesID = currentSeriesGridChild.id then
-            m.filteredSeasons.appendChild(season)
+            m.filteredSeasons.appendChild(season.clone(true))
         end if
     end for
     m.seasonListPanel.list.content = m.filteredSeasons
@@ -170,11 +174,15 @@ sub CreateSeasonListPanel()
 end sub
 
 sub CreateEpisodeListPanel()
+    if m.filteredEpisodes.getChildCount() > 0 then
+        children = m.filteredEpisodes.getChildren(-1, 0)
+        m.filteredEpisodes.removeChildren(children)
+    end if
     currentSeasonListChild = m.seasonListPanel.list.content.getChild(m.seasonListPanel.createNextPanelIndex)
     episodes = m.episodes.getChildren(-1, 0)
     for each episode in episodes
         if episode.SeasonID = currentSeasonListChild.id then
-            m.filteredEpisodes.appendChild(episode)
+            m.filteredEpisodes.appendChild(episode.clone(true))
         end if
     end for
     m.episodeListPanel.list.content = m.filteredEpisodes
@@ -209,12 +217,7 @@ function OnkeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
         if key = "back"
-            if m.movieDetailsPanelPlayButton.hasFocus() then
-                m.movieGridPanel.nextPanel = invalid
-                m.movieGridPanel.grid.jumpToItem = m.lastMovieGridIndex
-                m.movieGridPanel.setFocus(true)
-                result = true
-            else if m.videoNode <> invalid and m.videoNode.hasFocus() then
+            if m.videoNode <> invalid and m.videoNode.hasFocus() then
                 SetTimestampOnServer()
                 timestamp = m.videoNode.position
                 ' Set timestamp on video node

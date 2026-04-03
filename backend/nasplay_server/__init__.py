@@ -4,7 +4,7 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
     Path(app.instance_path).mkdir(mode=0o755, parents=True, exist_ok=True)
     app.config.from_mapping(
-        MEDIAPATH=PurePath("d:/Media/Videos/"),
+        MEDIAPATH=PurePath("/mnt/Media/Videos/"),
         DATABASE=Path(app.instance_path).joinpath("media.db"),
     )
     from . import db
