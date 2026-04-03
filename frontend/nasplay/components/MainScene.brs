@@ -4,7 +4,6 @@ sub init()
     m.content_feed_certification = "https://shansou504.github.io/nasplay_content_feed_certification/content_feed_certification.json"
     m.server = GetServer()
     m.setServerTask = CreateObject("roSGNode", "SetServerTask")
-    m.setTimestampTask = CreateObject("roSGNode", "SetTimestampTask")
     m.mainContentTask = CreateObject("roSGNode", "MainContentTask")
     m.mainContentTask.observeField("content", "OnMainContentTaskContent")
     if m.server = m.content_feed_certification
@@ -13,6 +12,34 @@ sub init()
         m.mainContentTask.contenturi = m.server + "/content"
     end if
     m.mainContentTask.control = "RUN"
+    m.setTimestampTask = CreateObject("roSGNode", "SetTimestampTask")
+    m.menuListPanel = CreateObject("roSGNode", "MenuListPanel")
+    m.menuListPanel.observeField("createNextPanelIndex", "UpdateSecondPanel")
+    m.seriesGridPanel = CreateObject("roSGNode", "SeriesGridPanel")
+    m.seriesGridPanel.observeField("createNextPanelIndex", "CreateSeasonListPanel")
+    m.seasonListPanel = CreateObject("roSGNode", "SeasonListPanel")    
+    m.seasonListPanel.observeField("createNextPanelIndex", "CreateEpisodeListPanel")
+    m.filteredEpisodes = CreateObject("roSGNode", "ContentNode")
+    m.filteredSeasons = CreateObject("roSGNode", "ContentNode")
+    m.episodeListPanel = CreateObject("roSGNode", "EpisodeListPanel")
+    m.episodeListPanel.list.observeField("itemFocused", "CreateEpisodeVideo")
+    m.episodeListPanel.list.observeField("itemSelected", "PlayVideo")
+    m.movieGridPanel = CreateObject("roSGNode", "MovieGridPanel")
+    m.movieGridPanel.observeField("createNextPanelIndex", "CreateMovieDetails")
+    m.movieDetailsPanel = CreateObject("roSGNode", "MovieDetailsPanel")
+    m.movieDetailsPanelPlayButton = m.movieDetailsPanel.findNode("PlayButton")
+    m.movieDetailsPanelPlayButton.observeField("buttonSelected", "PlayVideo")
+    m.keyboardDialogPanel = CreateObject("roSGNode", "KeyboardDialogPanel")
+    m.keyboardDialog = CreateObject("roSGNode", "StandardKeyboardDialog")
+    m.keyboardDialogPanel.appendChild(m.keyboardDialog)
+    m.keyboardDialog.ObserveField("buttonSelected","SetServer")
+    m.keyboardDialog.title = "Server"
+    m.keyboardDialog.buttons = ["Save"]
+    m.playbackTimer = CreateObject("roSGNode", "Timer")
+    m.playbackTimer.duration = 30
+    m.playbackTimer.repeat = true
+    m.playbackTimer.observeField("fire", "SetTimestampOnServer")
+    m.videoNode = CreateObject("roSGNode", "Video")
 end sub
 
 Function GetServer() As Dynamic
@@ -53,15 +80,10 @@ sub OnMainContentTaskContent()
         m.episodes = GetContent("episode")
         m.movies = GetContent("movie")
     end if
-    m.menuListPanel = m.top.panelSet.createChild("MenuListPanel")
-    m.menuListPanel.observeField("createNextPanelIndex", "UpdateSecondPanel")
-    ' SeriesGridPanel is defined here so it shows up the first time the app is opened.
-    ' It is removed and recreated each time the main menu highlights "Shows"
-    m.seriesGridPanel = CreateObject("roSGNode", "SeriesGridPanel")
     if m.series <> invalid then
         m.seriesGridPanel.grid.content = m.series
     end if
-    m.seriesGridPanel.observeField("createNextPanelIndex", "CreateSeasonListPanel")
+    m.top.panelSet.appendChild(m.menuListPanel)
     m.top.panelSet.appendChild(m.seriesGridPanel)
     m.menuListPanel.setFocus(true)
 end sub
@@ -113,28 +135,13 @@ end function
 sub UpdateSecondPanel()
     title = m.menuListPanel.list.content.getChild(m.menuListPanel.createNextPanelIndex).Title
     if title = "Shows" then
-        m.seriesGridPanel = CreateObject("roSGNode", "SeriesGridPanel")
-        if m.series <> invalid then
-            m.seriesGridPanel.grid.content = m.series
-        end if
-        m.seriesGridPanel.observeField("createNextPanelIndex", "CreateSeasonListPanel")
         m.menuListPanel.nextPanel = m.seriesGridPanel
     else if title = "Movies" then
-        m.movieGridPanel = CreateObject("roSGNode", "MovieGridPanel")
         if m.movies <> invalid then
             m.movieGridPanel.grid.content = m.movies
         end if
-        m.movieGridPanel.grid.observeField("itemFocused", "CreateMovieVideo")
-        m.movieGridPanel.grid.observeField("itemSelected", "PlayVideo")
         m.menuListPanel.nextPanel = m.movieGridPanel
     else if title = "Server" then
-        m.keyboardDialogPanel = CreateObject("roSGNode", "KeyboardDialogPanel")
-        m.keyboardDialog = CreateObject("roSGNode", "StandardKeyboardDialog")
-        m.keyboardDialogPanel.appendChild(m.keyboardDialog)
-        m.keyboardDialog.ObserveField("buttonSelected","SetServer")
-        m.keyboardDialog.title = "Server"
-        m.keyboardDialog.buttons = ["Save"]
-        ' I don't know why this line is here. I'll probably delete it
         m.top.dialog = m.keyboardDialog
         m.menuListPanel.nextPanel = m.keyboardDialogPanel
     else
@@ -143,71 +150,55 @@ sub UpdateSecondPanel()
     end if
 end sub
 
-sub CreateMovieVideo()
-    m.videoNode = CreateObject("roSGNode", "Video")
-    content = m.movieGridPanel.grid.content.getChild(m.movieGridPanel.grid.itemFocused)
-    m.videoNode.content = content.clone(true)
-    m.videoNode.control = "prebuffer"
+sub CreateMovieDetails()
+    content = m.movieGridPanel.grid.content.getChild(m.movieGridPanel.createNextPanelIndex)
+    m.videoNode.content = content
+    m.movieDetailsPanel.content = content
+    m.movieGridPanel.nextPanel = m.movieDetailsPanel
 end sub
 
 sub CreateSeasonListPanel()
-    m.filteredSeasons = CreateObject("roSGNode", "ContentNode")
     currentSeriesGridChild = m.seriesGridPanel.grid.content.getChild(m.seriesGridPanel.createNextPanelIndex)
     seasons = m.seasons.getChildren(-1, 0)
     for each season in seasons
         if season.SeriesID = currentSeriesGridChild.id then
-            m.filteredSeasons.appendChild(season.clone(true))
+            m.filteredSeasons.appendChild(season)
         end if
     end for
-    m.seasonListPanel = CreateObject("roSGNode", "SeasonListPanel")
     m.seasonListPanel.list.content = m.filteredSeasons
-    m.seasonListPanel.observeField("createNextPanelIndex", "CreateEpisodeListPanel")
     m.seriesGridPanel.nextPanel = m.seasonListPanel
 end sub
 
 sub CreateEpisodeListPanel()
-    m.filteredEpisodes = CreateObject("roSGNode", "ContentNode")
     currentSeasonListChild = m.seasonListPanel.list.content.getChild(m.seasonListPanel.createNextPanelIndex)
     episodes = m.episodes.getChildren(-1, 0)
     for each episode in episodes
         if episode.SeasonID = currentSeasonListChild.id then
-            m.filteredEpisodes.appendChild(episode.clone(true))
+            m.filteredEpisodes.appendChild(episode)
         end if
     end for
-    m.episodeListPanel = CreateObject("roSGNode", "EpisodeListPanel")
     m.episodeListPanel.list.content = m.filteredEpisodes
-    m.episodeListPanel.list.observeField("itemFocused", "CreateEpisodeVideo")
-    m.episodeListPanel.list.observeField("itemSelected", "PlayVideo")
     m.seasonListPanel.nextPanel = m.episodeListPanel
 end sub
 
 sub CreateEpisodeVideo()
-    m.videoNode = CreateObject("roSGNode", "Video")
     content = m.episodeListPanel.list.content.getChild(m.episodeListPanel.list.itemFocused)
-    m.videoNode.content = content.clone(true)
-    m.videoNode.control = "prebuffer"
+    m.videoNode.content = content
 end sub
 
 sub PlayVideo()
     m.top.appendChild(m.videoNode)
-    m.videoNode.setFocus(true)
+    m.videoNode.seek = m.videoNode.content.Timestamp
     m.videoNode.control = "play"
-    timestamp = m.videoNode.content.Timestamp
-    if timestamp <> invalid and timestamp > 0
-        m.videoNode.seek = timestamp
-    end if
-    m.playbackTimer = CreateObject("roSGNode", "Timer")
-    m.playbackTimer.duration = 30
-    m.playbackTimer.repeat = true
-    m.playbackTimer.observeField("fire", "SetTimestamp")
+    m.videoNode.setFocus(true)
     m.playbackTimer.control = "start"
 end sub
 
-sub SetTimestamp()
+sub SetTimestampOnServer()
     if m.videoNode = invalid then return
     assocArray = {
         id: m.videoNode.content.id,
-        timestamp: m.videoNode.position
+        ts: m.videoNode.position
     }
     m.setTimestampTask.contenturi = m.server + "/timestamp"
     m.setTimestampTask.content = FormatJson(assocArray)
@@ -218,17 +209,45 @@ function OnkeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if press
         if key = "back"
-            if m.videoNode <> invalid and m.videoNode.hasFocus() then
-                SetTimestamp()
+            if m.movieDetailsPanelPlayButton.hasFocus() then
+                m.movieGridPanel.nextPanel = invalid
+                m.movieGridPanel.grid.jumpToItem = m.lastMovieGridIndex
+                m.movieGridPanel.setFocus(true)
+                result = true
+            else if m.videoNode <> invalid and m.videoNode.hasFocus() then
+                SetTimestampOnServer()
+                timestamp = m.videoNode.position
+                ' Set timestamp on video node
+                m.videoNode.content.setField("Timestamp", timestamp)
+                id = m.videoNode.content.id
                 m.playbackTimer.control = "stop"
-                m.playbackTimer = invalid
                 m.videoNode.control = "stop"
                 m.top.removeChild(m.videoNode)
-                m.videoNode = invalid
-                if m.top.panelSet.getChild(m.top.panelSet.getChildCount() - 1).id = "MovieGridPanel" then
-                    m.movieGridPanel.setFocus(true)
+                lastPanel = m.top.panelSet.getChild(m.top.panelSet.getChildCount() - 1)
+                lastIndex = invalid
+                if lastPanel <> invalid then
+                    if lastPanel.id = "MovieDetailsPanel" then
+                        ' Set timestamp on m.movieGridPanel.grid.content node
+                        for index = 0 to m.movieGridPanel.grid.content.getChildCount() - 1
+                            movieNode = m.movieGridPanel.grid.content.getChild(index)
+                            if movieNode.id = id then
+                                lastIndex = index
+                                movieNode.setField("Timestamp", timestamp)
+                                exit for
+                            end if
+                        end for
+                        ' Set timestamp on m.movies source object
+                        movieJson = m.movies.getChild(lastIndex)
+                        movieJson.setField("Timestamp", timestamp)
+                        ' Reset focus back to playButton
+                        m.movieDetailsPanelPlayButton.setFocus(true)
+                    else if lastPanel.id = "EpisodeListPanel" then
+                        m.episodeListPanel.setFocus(true)
+                    else
+                        result = false
+                    end if
                 else
-                    m.episodeListPanel.setFocus(true)
+                    m.menuListPanel.setFocus(true)
                 end if
                 result = true
             end if

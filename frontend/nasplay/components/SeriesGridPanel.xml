@@ -5,7 +5,7 @@
         <PosterGrid
             id = "SeriesPosterGrid"
             basePostersize = "[154,231]"
-            numColumns = "4"
+            numColumns = "3"
             numRows = "3"
             itemSpacing = "[20,20]"
         />

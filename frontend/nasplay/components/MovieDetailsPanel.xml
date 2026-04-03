@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<component name = "MovieDetailsPanel" extends = "Panel">
+    <interface>
+        <field id = "content" type = "node" onchange="UpdatePoster"/>
+    </interface>
+    <script type = "text/brightscript" uri = "MovieDetailsPanel.brs"></script>
+    <children>
+        <Poster
+            id = "MoviePoster"
+            width = "300"
+            height = "169"
+        >
+        </Poster>
+        <Button
+            id = "PlayButton"
+            text = "Play"
+            translation = "0, 180"
+        >
+        </Button>
+    </children>
+</component>
