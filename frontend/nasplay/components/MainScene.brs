@@ -196,7 +196,7 @@ end sub
 
 sub PlayVideo()
     m.top.appendChild(m.videoNode)
-    m.videoNode.seek = m.videoNode.content.Timestamp
+ m.videoNode.seek = m.videoNode.content.Timestamp
     m.videoNode.control = "play"
     m.videoNode.setFocus(true)
     m.playbackTimer.control = "start"
@@ -249,8 +249,6 @@ function OnkeyEvent(key as String, press as Boolean) as Boolean
                     else
                         result = false
                     end if
-                else
-                    m.menuListPanel.setFocus(true)
                 end if
                 result = true
             end if
