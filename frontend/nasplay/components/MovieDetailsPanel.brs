@@ -1,6 +1,7 @@
 sub init()
     m.top.id = "MovieDetailsPanel"
     m.top.panelSize = "narrow"
+    m.top.focusable = true
     m.top.hasNextPanel = false
     m.moviePoster =  m.top.findNode("MoviePoster")
     m.playButton = m.top.findNode("PlayButton")
