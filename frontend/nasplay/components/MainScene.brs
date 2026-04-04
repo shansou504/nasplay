@@ -29,9 +29,7 @@ sub init()
     m.movieDetailsPanel = CreateObject("roSGNode", "MovieDetailsPanel")
     m.movieDetailsPanelPlayButton = m.movieDetailsPanel.findNode("PlayButton")
     m.movieDetailsPanelPlayButton.observeField("buttonSelected", "PlayVideo")
-    m.keyboardDialogPanel = CreateObject("roSGNode", "KeyboardDialogPanel")
     m.keyboardDialog = CreateObject("roSGNode", "StandardKeyboardDialog")
-    m.keyboardDialogPanel.appendChild(m.keyboardDialog)
     m.keyboardDialog.ObserveField("buttonSelected","SetServer")
     m.keyboardDialog.title = "Server"
     m.keyboardDialog.buttons = ["Save"]
@@ -143,7 +141,7 @@ sub UpdateSecondPanel()
         m.menuListPanel.nextPanel = m.movieGridPanel
     else if title = "Server" then
         m.top.dialog = m.keyboardDialog
-        m.menuListPanel.nextPanel = m.keyboardDialogPanel
+        m.menuListPanel.nextPanel = invalid
     else
         ' Prevent crash
         m.menuListPanel.nextPanel = invalid
