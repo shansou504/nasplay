@@ -83,6 +83,9 @@ sub OnMainContentTaskContent()
     if m.series <> invalid then
         m.seriesGridPanel.grid.content = m.series
     end if
+    if m.movies <> invalid then
+        m.movieGridPanel.grid.content = m.movies
+    end if
     m.top.panelSet.appendChild(m.menuListPanel)
     m.top.panelSet.appendChild(m.seriesGridPanel)
     m.menuListPanel.setFocus(true)
@@ -137,9 +140,6 @@ sub UpdateSecondPanel()
     if title = "Shows" then
         m.menuListPanel.nextPanel = m.seriesGridPanel
     else if title = "Movies" then
-        if m.movies <> invalid then
-            m.movieGridPanel.grid.content = m.movies
-        end if
         m.menuListPanel.nextPanel = m.movieGridPanel
     else if title = "Server" then
         m.top.dialog = m.keyboardDialog
