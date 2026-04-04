@@ -1,15 +1,14 @@
 from flask import Flask, request, send_file
 from pathlib import Path, PurePath
+import json
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
     Path(app.instance_path).mkdir(mode=0o755, parents=True, exist_ok=True)
-    app.config.from_mapping(
-        MEDIAPATH=PurePath("/mnt/Media/Videos/"),
-        DATABASE=Path(app.instance_path).joinpath("media.db"),
-    )
+    app.config.from_file("config.json", load=json.load)
+    media_path = PurePath(app.config["MEDIAPATH"])
     from . import db
     db.init_app(app)
-
+    
     @app.route("/content", methods=["GET"])
     def content():
         try:
@@ -69,7 +68,7 @@ def create_app():
                 args = (id,)
                 data = db.sql_call(sql, args)
                 if db.validate_data(data):
-                    file = app.config["MEDIAPATH"] / data[0]["filepath"]
+                    file = media_path / data[0]["filepath"]
                     return send_file(file, as_attachment=True)
                 else:
                     print("Data could not be validated")
@@ -101,7 +100,7 @@ def create_app():
                 args = (id,)
                 data = db.sql_call(sql, args)
                 if db.validate_data(data):
-                    file = app.config["MEDIAPATH"] / data[0]["filepath"]
+                    file = media_path / data[0]["filepath"]
                     return send_file(file, as_attachment=True)
                 else:
                     print("Data could not be validated")

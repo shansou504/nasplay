@@ -1,10 +1,12 @@
 import sqlite3
 import click
+from pathlib import Path
 from flask import current_app, g
 def get_db():
     if "db" not in g:
+        database = Path(current_app.instance_path).joinpath(current_app.config["DATABASE"])
         g.db = sqlite3.connect(
-            current_app.config["DATABASE"],
+            database,
             autocommit=True
         )
         g.db.row_factory = sqlite3.Row
