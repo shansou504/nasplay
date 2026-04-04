@@ -4,10 +4,10 @@
     <children>
         <PosterGrid
             id = "MoviePosterGrid"
-            basePostersize = "[154,231]"
-            numColumns = "3"
+            basePostersize = "[108,162]"
+            numColumns = "5"
             numRows = "3"
-            itemSpacing = "[20,20]"
+            itemSpacing = "[15,15]"
         />
     </children>
 </component>
