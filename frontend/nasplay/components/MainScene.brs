@@ -25,7 +25,7 @@ sub init()
     m.episodeListPanel.list.observeField("itemFocused", "CreateEpisodeVideo")
     m.episodeListPanel.list.observeField("itemSelected", "PlayVideo")
     m.movieGridPanel = CreateObject("roSGNode", "MovieGridPanel")
-    m.movieGridPanel.observeField("createNextPanelIndex", "CreateMovieDetails")
+    m.movieGridPanel.observeField("createNextPanelIndex", "CreateMovieDetailsPanel")
     m.movieDetailsPanel = CreateObject("roSGNode", "MovieDetailsPanel")
     m.movieDetailsPanelPlayButton = m.movieDetailsPanel.findNode("PlayButton")
     m.movieDetailsPanelPlayButton.observeField("buttonSelected", "PlayVideo")
@@ -148,7 +148,7 @@ sub UpdateSecondPanel()
     end if
 end sub
 
-sub CreateMovieDetails()
+sub CreateMovieDetailsPanel()
     content = m.movieGridPanel.grid.content.getChild(m.movieGridPanel.createNextPanelIndex)
     m.videoNode.content = content
     m.movieDetailsPanel.content = content
