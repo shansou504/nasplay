@@ -8,7 +8,7 @@ sub init()
     m.top.observeField("content", "OnContentChange")
 end sub
 
-sub OnItemFocus()
+sub OnItemFocused()
     UpdateLabels()
 end sub
 
