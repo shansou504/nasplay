@@ -1,7 +1,7 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <component name = "MovieDetailsPanel" extends = "Panel" initialFocus = "PlayButton">
     <interface>
-        <field id = "content" type = "node" onchange="UpdatePoster"/>
+        <field id = "content" type = "node" onchange = "UpdatePoster" alwaysNotify = "true"/>
     </interface>
     <script type = "text/brightscript" uri = "MovieDetailsPanel.brs"></script>
     <children>

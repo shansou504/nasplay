@@ -150,9 +150,9 @@ end sub
 
 sub CreateMovieDetailsPanel()
     content = m.movieGridPanel.grid.content.getChild(m.movieGridPanel.createNextPanelIndex)
-    m.videoNode.content = content
     m.movieDetailsPanel.content = content
     m.movieGridPanel.nextPanel = m.movieDetailsPanel
+    m.videoNode.content = content
 end sub
 
 sub CreateSeasonListPanel()

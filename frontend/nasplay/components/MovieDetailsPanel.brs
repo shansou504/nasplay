@@ -24,7 +24,6 @@ sub UpdatePoster()
         info = info + m.posterNode.ReleaseDate
     end if
     m.ratingReleaseDate.text = info
-    ' Position play button below description
     descRect = m.description.boundingRect()
     m.playButton.translation = [0, descRect.y + descRect.height + 15]
 end sub
