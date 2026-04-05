@@ -4,8 +4,8 @@ sub init()
     m.top.hasNextPanel = true
     m.MoviePosterGrid = m.top.findNode("MoviePosterGrid")
     m.top.grid = m.MoviePosterGrid
-    m.top.observeField("itemFocused", "OnItemFocused")
-    m.top.observeField("content", "OnContentChanged")
+    m.top.grid.observeField("itemFocused", "OnItemFocused")
+    m.top.grid.observeField("content", "OnContentChanged")
 end sub
 
 sub OnItemFocused()
@@ -19,7 +19,7 @@ end sub
 sub UpdateLabels()
     if m.MoviePosterGrid.content = invalid then return
     total = m.MoviePosterGrid.content.getChildCount()
-    index = m.top.createNextPanelIndex
+    index = m.top.grid.itemFocused
     if index >= 0 and total > 0 then
         m.top.rightLabel.text = (index + 1).toStr() + " of " + total.toStr()
         item = m.MoviePosterGrid.content.getChild(index)
