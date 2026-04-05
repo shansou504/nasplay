@@ -5,14 +5,14 @@ sub init()
     m.MoviePosterGrid = m.top.findNode("MoviePosterGrid")
     m.top.grid = m.MoviePosterGrid
     m.top.observeField("itemFocused", "OnItemFocused")
-    m.top.observeField("content", "OnContentChange")
+    m.top.observeField("content", "OnContentChanged")
 end sub
 
 sub OnItemFocused()
     UpdateLabels()
 end sub
 
-sub OnContentChange()
+sub OnContentChanged()
     UpdateLabels()
 end sub
 
