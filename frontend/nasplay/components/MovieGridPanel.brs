@@ -4,10 +4,19 @@ sub init()
     m.top.hasNextPanel = true
     m.MoviePosterGrid = m.top.findNode("MoviePosterGrid")
     m.top.grid = m.MoviePosterGrid
-    m.top.observeField("createNextPanelIndex", "OnCreateNextPanel")
+    m.top.observeField("itemFocused", "OnItemFocused")
+    m.top.observeField("content", "OnContentChange")
 end sub
 
-sub OnCreateNextPanel()
+sub OnItemFocus()
+    UpdateLabels()
+end sub
+
+sub OnContentChange()
+    UpdateLabels()
+end sub
+
+sub UpdateLabels()
     if m.MoviePosterGrid.content = invalid then return
     total = m.MoviePosterGrid.content.getChildCount()
     index = m.top.createNextPanelIndex
