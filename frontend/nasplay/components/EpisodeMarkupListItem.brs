@@ -4,10 +4,11 @@ sub init()
     m.description = m.top.findNode("EpisodeDescription")
     m.episodenumber = m.top.findNode("EpisodeNumber")
 end sub
+
 sub itemContentChanged()
     m.itemcontent = m.top.itemContent
     m.poster.uri = m.itemcontent.FHDPosterUrl
     m.title.text = m.itemcontent.Title
     m.description.text = m.itemcontent.Description
-    m.episodenumber.text = m.itemcontent.EpisodeNumber
+    m.episodenumber.text = "Episode " + m.itemcontent.EpisodeNumber
 end sub

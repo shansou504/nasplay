@@ -1,0 +1,33 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<component name = "EpisodeMarkupListItem" extends = "Group">
+    <interface>
+        <field id = "itemContent" type = "node" onChange = "itemContentChanged"/>
+    </interface>
+    <script type = "text/brightscript" uri = "EpisodeMarkupListItem.brs"></script>
+    <children>
+        <Poster
+            id = "EpisodePoster"
+            translation = "[0, 8]"
+            width = "185"
+            height = "104"
+        />
+        <Label
+            id = "EpisodeTitle"
+            translation = "[200, 5]"
+            font = "font:MediumBoldSystemFont"
+        />
+        <Label
+            id = "EpisodeDescription"
+            translation = "[200, 35]"
+            width = "490"
+            wrap = "true"
+            maxLines = "3"
+            font = "font:SmallSystemFont"
+        />
+        <Label
+            id = "EpisodeNumber"
+            translation = "[200, 95]"
+            font = "font:SmallSystemFont"
+        />
+    </children>
+</component>
