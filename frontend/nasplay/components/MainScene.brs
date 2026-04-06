@@ -40,6 +40,7 @@ sub init()
     m.playbackTimer.repeat = true
     m.playbackTimer.observeField("fire", "SetTimestampOnServer")
     m.videoNode = CreateObject("roSGNode", "Video")
+    m.videoNode.observeField("state", "OnVideoStateChange")
 end sub
 
 Function GetServer() As Dynamic
@@ -208,15 +209,52 @@ sub PlayVideo()
     m.playbackTimer.control = "start"
 end sub
 
-sub SetTimestampOnServer()
+sub SetTimestampOnServer(ts = invalid)
     if m.videoNode = invalid then return
+    if ts = invalid then ts = m.videoNode.position
     assocArray = {
         id: m.videoNode.content.id,
-        ts: m.videoNode.position
+        ts: ts
     }
     m.setTimestampTask.contenturi = m.server + "/timestamp"
     m.setTimestampTask.content = FormatJson(assocArray)
     m.setTimestampTask.control = "RUN"
+end sub
+
+sub StopVideo(timestamp)
+    SetTimestampOnServer(timestamp)
+    m.videoNode.content.setField("Timestamp", timestamp)
+    id = m.videoNode.content.id
+    m.playbackTimer.control = "stop"
+    m.videoNode.control = "stop"
+    m.top.removeChild(m.videoNode)
+    lastPanel = m.top.panelSet.getChild(m.top.panelSet.getChildCount() - 1)
+    lastIndex = invalid
+    if lastPanel <> invalid then
+        if lastPanel.id = "MovieDetailsPanel" then
+            for index = 0 to m.movieGridPanel.grid.content.getChildCount() - 1
+                movieNode = m.movieGridPanel.grid.content.getChild(index)
+                if movieNode.id = id then
+                    lastIndex = index
+                    movieNode.setField("Timestamp", timestamp)
+                    exit for
+                end if
+            end for
+            if lastIndex <> invalid then
+                movieJson = m.movies.getChild(lastIndex)
+                movieJson.setField("Timestamp", timestamp)
+            end if
+            m.movieDetailsPanelPlayButton.setFocus(true)
+        else if lastPanel.id = "EpisodeListPanel" then
+            m.episodeListPanel.setFocus(true)
+        end if
+    end if
+end sub
+
+sub OnVideoStateChange()
+    if m.videoNode.state = "finished" then
+        StopVideo(0)
+    end if
 end sub
 
 function OnkeyEvent(key as String, press as Boolean) as Boolean
@@ -224,38 +262,7 @@ function OnkeyEvent(key as String, press as Boolean) as Boolean
     if press
         if key = "back"
             if m.videoNode <> invalid and m.videoNode.hasFocus() then
-                SetTimestampOnServer()
-                timestamp = m.videoNode.position
-                ' Set timestamp on video node
-                m.videoNode.content.setField("Timestamp", timestamp)
-                id = m.videoNode.content.id
-                m.playbackTimer.control = "stop"
-                m.videoNode.control = "stop"
-                m.top.removeChild(m.videoNode)
-                lastPanel = m.top.panelSet.getChild(m.top.panelSet.getChildCount() - 1)
-                lastIndex = invalid
-                if lastPanel <> invalid then
-                    if lastPanel.id = "MovieDetailsPanel" then
-                        ' Set timestamp on m.movieGridPanel.grid.content node
-                        for index = 0 to m.movieGridPanel.grid.content.getChildCount() - 1
-                            movieNode = m.movieGridPanel.grid.content.getChild(index)
-                            if movieNode.id = id then
-                                lastIndex = index
-                                movieNode.setField("Timestamp", timestamp)
-                                exit for
-                            end if
-                        end for
-                        ' Set timestamp on m.movies source object
-                        movieJson = m.movies.getChild(lastIndex)
-                        movieJson.setField("Timestamp", timestamp)
-                        ' Reset focus back to playButton
-                        m.movieDetailsPanelPlayButton.setFocus(true)
-                    else if lastPanel.id = "EpisodeListPanel" then
-                        m.episodeListPanel.setFocus(true)
-                    else
-                        result = false
-                    end if
-                end if
+                StopVideo(m.videoNode.position)
                 result = true
             end if
         end if

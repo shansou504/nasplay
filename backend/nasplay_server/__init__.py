@@ -146,6 +146,12 @@ def create_app():
                               WHERE uuid = ?"""
                     args = (ts, id)
                     db.sql_call(sql, args)
+                    if ts == 0:
+                        sql = """UPDATE content
+                                    SET watched = 1
+                                  WHERE uuid = ?"""
+                        args = (id,)
+                        db.sql_call(sql, args)
                     return "", 200
                 except Exception as e:
                     print("Could not set timestamp")
