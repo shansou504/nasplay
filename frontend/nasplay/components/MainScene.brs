@@ -173,7 +173,7 @@ sub CreateSeasonListPanel()
             m.filteredSeasons.appendChild(season.clone(true))
         end if
     end for
-    m.seasonListPanel.leftLabel.text = currentSeriesGridChild.Title
+    m.seasonListPanel.overhangTitle = currentSeriesGridChild.Title
     m.seasonListPanel.list.content = m.filteredSeasons
     m.seriesGridPanel.nextPanel = m.seasonListPanel
 end sub

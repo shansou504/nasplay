@@ -16,6 +16,8 @@ server=pkg:/images/server.png
 server_focused=pkg:/images/server_focused.png
 tv=pkg:/images/tv.png
 tv_focused=pkg:/images/tv_focused.png
+play=pkg:/images/play-icon-32x32.png
+play_focused=pkg:/images/play-icon-focused-32x32.png
 icons8-picture-154x231=pkg:/images/icons8-picture-154x231.png
 icons8-picture-300x169=pkg:/images/icons8-picture-300x169.png
 

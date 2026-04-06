@@ -27,7 +27,7 @@ sub UpdatePoster()
 end sub
 
 sub PlayButtonFocus()
-    if m.top.hasFocus() then
+    if m.top.isInFocusChain() then
         m.playButton.setFocus(true)
     end if
 end sub
