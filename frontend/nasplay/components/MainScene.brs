@@ -209,9 +209,9 @@ sub PlayVideo()
     m.playbackTimer.control = "start"
 end sub
 
-sub SetTimestampOnServer(ts = invalid)
-    if m.videoNode = invalid then return
-    if ts = invalid then ts = m.videoNode.position
+sub SetTimestampOnServer(ts = 9e30 as float)
+    if m.videoNode.position = invalid then return
+    if ts = 9e30 then ts = m.videoNode.position
     assocArray = {
         id: m.videoNode.content.id,
         ts: ts
