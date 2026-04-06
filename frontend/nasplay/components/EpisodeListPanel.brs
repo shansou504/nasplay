@@ -1,5 +1,6 @@
 sub init()
     m.top.id = "EpisodeListPanel"
+    m.top.overhangTitle = "Episodes"
     m.top.panelSize = "wide"
     m.top.hasNextPanel = false
     m.episodeMarkupList = m.top.findNode("EpisodeMarkupList")

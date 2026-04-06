@@ -1,5 +1,6 @@
 sub init()
     m.top.id = "SeriesGridPanel"
+    m.top.overhangTitle = "Shows"
     m.top.panelSize = "wide"
     m.top.hasNextPanel = true
     m.SeriesPosterGrid = m.top.findNode("SeriesPosterGrid")

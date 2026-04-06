@@ -1,5 +1,6 @@
 sub init()
     m.top.id = "MenuListPanel"
+    m.top.overhangTitle = "Menu"
     m.top.panelSize = "narrow"
     m.top.hasNextPanel = true
     m.menuLabelList =  m.top.findNode("MenuLabelList")

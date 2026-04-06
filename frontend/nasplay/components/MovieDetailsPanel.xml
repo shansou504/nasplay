@@ -5,35 +5,13 @@
     </interface>
     <script type = "text/brightscript" uri = "MovieDetailsPanel.brs"></script>
     <children>
-        <Label
-            id = "Title"
-            width = "340"
-            font = "font:MediumBoldSystemFont"
-        >
-        </Label>
-        <Label
-            id = "RatingReleaseDate"
-            translation = "[0, 40]"
-            width = "340"
-            font = "font:SmallSystemFont"
-        >
-        </Label>
         <Poster
             id = "MoviePoster"
             width = "388"
             height = "218"
-            translation = "[0, 70]"
+            translation = "[0, 44]"
         >
         </Poster>
-        <Label
-            id = "Description"
-            translation = "[0, 300]"
-            width = "340"
-            wrap = "true"
-            maxLines = "6"
-            font = "font:SmallSystemFont"
-        >
-        </Label>
         <Button
             id = "PlayButton"
             text = ""
@@ -41,7 +19,32 @@
             focusedIconUri = "pkg:/images/icon_play_focused.png"
             minWidth = "92"
             maxWidth = "92"
+            translation = "[10, 268]"
         >
         </Button>
+        <Label
+            id = "RatingReleaseDate"
+            width = "250"
+            translation = "[130, 300]"
+            font = "font:SmallSystemFont"
+        >
+        </Label>
+        <Rectangle
+            id = "Separator"
+            width = "388"
+            height = "1"
+            color = "0x888888FF"
+            translation = "[0, 335]"
+        >
+        </Rectangle>
+        <Label
+            id = "Description"
+            translation = "[0, 350]"
+            width = "388"
+            wrap = "true"
+            maxLines = "7"
+            font = "font:SmallSystemFont"
+        >
+        </Label>
     </children>
 </component>
