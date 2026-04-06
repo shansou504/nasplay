@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1096"
+   height="720"
+   viewBox="0 0 289.98333 190.5"
+   version="1.1"
+   id="svg14108"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="details.svg"
+   inkscape:export-filename="../nasplay/images/details.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview14110"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1"
+     inkscape:cx="507"
+     inkscape:cy="356"
+     inkscape:window-width="1872"
+     inkscape:window-height="1025"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs14105">
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient997"
+       id="radialGradient4183"
+       cx="360"
+       cy="-732"
+       fx="360"
+       fy="-732"
+       r="360"
+       gradientTransform="matrix(0.26458333,0,0,0.40275462,-6.060791e-7,149.82472)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient997">
+      <stop
+         style="stop-color:#18464c;stop-opacity:1;"
+         offset="0"
+         id="stop993" />
+      <stop
+         style="stop-color:#0a1c1f;stop-opacity:1;"
+         offset="1"
+         id="stop995" />
+    </linearGradient>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter33303"
+       inkscape:label="filter0"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:auto-region="true">
+      <feTurbulence
+         id="feTurbulence33305"
+         baseFrequency="100"
+         type="fractalNoise"
+         numOctaves="1"
+         result="result1"
+         in="SourceGraphic" />
+      <feDisplacementMap
+         id="feDisplacementMap39847"
+         in="SourceGraphic"
+         scale="20"
+         xChannelSelector="R"
+         yChannelSelector="B"
+         result="result2"
+         in2="result1" />
+      <feComposite
+         in2="SourceGraphic"
+         id="feComposite791" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect180"
+       style="mix-blend-mode:normal;fill:url(#radialGradient4183);fill-opacity:1;stroke-width:0.244999;stroke-dasharray:none;filter:url(#filter33303)"
+       d="M 11.615854 -12.123049 L 178.88414 -12.123049 L 178.88414 -277.86028 L 11.615854 -277.86028 L 11.615854 -12.123049 z "
+       transform="matrix(0,1.1388889,-1.0912409,0,-13.229167,-13.229167)" />
+  </g>
+</svg>
