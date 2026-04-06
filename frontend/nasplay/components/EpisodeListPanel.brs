@@ -10,7 +10,7 @@ end sub
 
 sub UpdateLabels()
     if m.episodeMarkupList.content = invalid then return
-    total = m.episodeMarkupList.content.getChildCount()
+    total = m.top.totalEpisodes
     index = m.episodeMarkupList.itemFocused
     if index >= 0 and total > 0 then
         item = m.episodeMarkupList.content.getChild(index)

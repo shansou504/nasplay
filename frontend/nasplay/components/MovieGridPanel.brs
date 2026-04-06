@@ -22,9 +22,5 @@ sub UpdateLabels()
     index = m.MoviePosterGrid.itemFocused
     if index >= 0 and total > 0 then
         m.top.rightLabel.text = (index + 1).toStr() + " of " + total.toStr()
-        item = m.MoviePosterGrid.content.getChild(index)
-        if item <> invalid then
-            m.top.leftLabel.text = item.Title
-        end if
     end if
 end sub

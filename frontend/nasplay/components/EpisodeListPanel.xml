@@ -1,5 +1,8 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <component name = "EpisodeListPanel" extends = "ListPanel" initialFocus = "EpisodeMarkupList">
+    <interface>
+        <field id = "totalEpisodes" type = "integer"/>
+    </interface>
     <script type = "text/brightscript" uri = "EpisodeListPanel.brs"></script>
     <children>
         <MarkupList

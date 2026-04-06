@@ -111,6 +111,9 @@ function GetContent(contentType = invalid)
                 if item.EpisodeNumber <> invalid
                     childNode.setField("EpisodeNumber", item.EpisodeNumber.toStr())
                 end if
+                if item.NumEpisodes <> invalid
+                    childNode.setField("NumEpisodes", item.NumEpisodes.toStr())
+                end if
                 ' ID (uuid) maps to the built-in node id field
                 childNode.id = item.ID
                 ' Custom fields not in standard ContentNode schema
@@ -140,6 +143,7 @@ sub UpdateSecondPanel()
     else if title = "Movies" then
         m.menuListPanel.nextPanel = m.movieGridPanel
     else if title = "Server" then
+        m.keyboardDialog.message = ["Current server is " + m.server]
         m.top.dialog = m.keyboardDialog
         m.menuListPanel.nextPanel = invalid
     else
@@ -167,6 +171,7 @@ sub CreateSeasonListPanel()
             m.filteredSeasons.appendChild(season.clone(true))
         end if
     end for
+    m.seasonListPanel.leftLabel.text = currentSeriesGridChild.Title
     m.seasonListPanel.list.content = m.filteredSeasons
     m.seriesGridPanel.nextPanel = m.seasonListPanel
 end sub
@@ -183,6 +188,7 @@ sub CreateEpisodeListPanel()
             m.filteredEpisodes.appendChild(episode.clone(true))
         end if
     end for
+    m.episodeListPanel.totalEpisodes = currentSeasonListChild.NumEpisodes
     m.episodeListPanel.list.content = m.filteredEpisodes
     m.seasonListPanel.nextPanel = m.episodeListPanel
 end sub

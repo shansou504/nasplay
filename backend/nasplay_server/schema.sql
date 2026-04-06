@@ -58,6 +58,7 @@ CREATE VIEW content_view AS
           , c.releasedate ReleaseDate
           , r.rating Rating
           , c.episodenumber EpisodeNumber
+          , c.numepisodes NumEpisodes
           , concat(s.server, '/play?id=', c.uuid) Url
           , concat(s.server, '/subtitle?id=', c.uuid) SubtitleUrl
           , c.timestamp Timestamp
