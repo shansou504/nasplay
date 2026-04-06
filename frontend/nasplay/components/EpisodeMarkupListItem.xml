@@ -2,6 +2,7 @@
 <component name = "EpisodeMarkupListItem" extends = "Group">
     <interface>
         <field id = "itemContent" type = "node" onChange = "itemContentChanged"/>
+        <field id = "itemHasFocus" type = "bool" onChange = "ChangeColor"/>
     </interface>
     <script type = "text/brightscript" uri = "EpisodeMarkupListItem.brs"></script>
     <children>
@@ -18,7 +19,7 @@
         />
         <Label
             id = "EpisodeDescription"
-            translation = "[200, 38]"
+            translation = "[200, 42]"
             width = "400"
             wrap = "true"
             maxLines = "3"

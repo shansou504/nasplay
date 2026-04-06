@@ -10,9 +10,9 @@
                 id = "MenuLabelListContent"
                 role = "content"
             >
-                <ContentNode hdlistitemiconurl = "pkg:/images/tv.png" title = "Shows"/>
-                <ContentNode hdlistitemiconurl = "pkg:/images/movie.png" title = "Movies"/>
-                <ContentNode hdlistitemiconurl = "pkg:/images/server.png" title = "Server"/>
+                <ContentNode hdlistitemiconurl = "pkg:/images/tv.png" hdlistitemiconselectedurl = "pkg:/images/tv_focused.png" title = "Shows"/>
+                <ContentNode hdlistitemiconurl = "pkg:/images/movie.png" hdlistitemiconselectedurl = "pkg:/images/movie_focused.png" title = "Movies"/>
+                <ContentNode hdlistitemiconurl = "pkg:/images/server.png" hdlistitemiconselectedurl = "pkg:/images/server_focused.png" title = "Server"/>
             </ContentNode>
         </LabelList>
     </children>

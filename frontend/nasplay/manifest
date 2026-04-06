@@ -11,8 +11,11 @@ splash_screen_hd=pkg:/images/splash_1280x720.png
 nasplay-logo-160x48=pkg:/images/nasplay-logo-160x48.png
 tmdb-logo-80x43=pkg:/tmdb-logo-80x43.png
 movie=pkg:/images/movie.png
+movie_focused=pkg:/images/movie_focused.png
 server=pkg:/images/server.png
+server_focused=pkg:/images/server_focused.png
 tv=pkg:/images/tv.png
+tv_focused=pkg:/images/tv_focused.png
 icons8-picture-154x231=pkg:/images/icons8-picture-154x231.png
 icons8-picture-300x169=pkg:/images/icons8-picture-300x169.png
 
