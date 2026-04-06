@@ -22,6 +22,8 @@ def create_app():
             if db.validate_data(data):
                 for d in data:
                     d = db.format_subtitle(d)
+                    if d.get("Description"):
+                        d["Description"] = d["Description"].replace("\\n", "\n").replace("\\\"", "\"").replace("\\", "")
                 return data
             else:
                 print("Data could not be validated")
