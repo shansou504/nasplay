@@ -2,7 +2,6 @@ sub init()
     m.poster = m.top.findNode("EpisodePoster")
     m.title = m.top.findNode("EpisodeTitle")
     m.description = m.top.findNode("EpisodeDescription")
-    m.episodenumber = m.top.findNode("EpisodeNumber")
 end sub
 
 sub itemContentChanged()
@@ -10,5 +9,14 @@ sub itemContentChanged()
     m.poster.uri = m.itemcontent.FHDPosterUrl
     m.title.text = m.itemcontent.Title
     m.description.text = m.itemcontent.Description
-    m.episodenumber.text = "Episode " + m.itemcontent.EpisodeNumber
+end sub
+
+sub ChangeColor()
+    if m.top.itemHasFocus then
+        m.title.color = "#000000"
+        m.description.color = "#000000"
+    else
+        m.title.color = "#FFFFFF"
+        m.description.color = "#FFFFFF"
+    end if
 end sub
