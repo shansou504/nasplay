@@ -4,14 +4,15 @@
     <children>
         <LabelList
             id = "MenuLabelList"
+            itemSize = "[0, 64]"
         >
             <ContentNode
                 id = "MenuLabelListContent"
                 role = "content"
             >
-                <ContentNode title = "Shows"/>
-                <ContentNode title = "Movies"/>
-                <ContentNode title = "Server"/>
+                <ContentNode hdlistitemiconurl = "pkg:/images/tv.png" title = "Shows"/>
+                <ContentNode hdlistitemiconurl = "pkg:/images/movie.png" title = "Movies"/>
+                <ContentNode hdlistitemiconurl = "pkg:/images/server.png" title = "Server"/>
             </ContentNode>
         </LabelList>
     </children>

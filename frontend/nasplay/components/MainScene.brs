@@ -1,6 +1,6 @@
 sub init()
     m.top.id = "MainScene"
-    m.top.backgroundURI = "pkg:/images/rsgde_bg_hd.jpg"
+    m.top.backgroundURI = "pkg:/images/background_1280x720.png"
     m.content_feed_certification = "https://shansou504.github.io/nasplay_content_feed_certification/content_feed_certification.json"
     m.server = GetServer()
     m.setServerTask = CreateObject("roSGNode", "SetServerTask")
