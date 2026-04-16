@@ -115,48 +115,26 @@ def create_app():
             print(e)
             return "", 500
         
-    @app.route("/timestamp", methods=["GET", "POST"])
+    @app.route("/timestamp", methods=["POST"])
     def timestamp():
-        match request.method:
-            case "GET":
-                try:
-                    id = request.args["id"]
-                    sql = """SELECT timestamp
-                               FROM content
-                              WHERE uuid = ?
-                           ORDER BY title ASC"""
-                    args = (id,)
-                    data = db.sql_call(sql, args)
-                    if db.validate_data(data):
-                        return data
-                    else:
-                        print("Data could not be validated")
-                        return "", 500
-                except Exception as e:
-                    print("Could not get timestamp")
-                    print(e)
-                    return "", 500
-            case "POST":
-                try:
-                    data = request.get_json()
-                    id = data["id"]
-                    ts = data["ts"]
-                    sql = """UPDATE content
-                                SET timestamp = ?
-                              WHERE uuid = ?"""
-                    args = (ts, id)
-                    db.sql_call(sql, args)
-                    if ts == 0:
-                        sql = """UPDATE content
-                                    SET watched = 1
-                                  WHERE uuid = ?"""
-                        args = (id,)
-                        db.sql_call(sql, args)
-                    return "", 200
-                except Exception as e:
-                    print("Could not set timestamp")
-                    print(e)
-                    return "", 500
-            case _:
-                return "", 500
+        try:
+            data = request.get_json()
+            id = data["id"]
+            ts = data["ts"]
+            sql = """UPDATE content
+                        SET timestamp = ?
+                        WHERE uuid = ?"""
+            args = (ts, id)
+            db.sql_call(sql, args)
+            if ts == 0:
+                sql = """UPDATE content
+                            SET watched = 1
+                            WHERE uuid = ?"""
+                args = (id,)
+                db.sql_call(sql, args)
+            return "", 200
+        except Exception as e:
+            print("Could not set timestamp")
+            print(e)
+            return "", 500
     return app

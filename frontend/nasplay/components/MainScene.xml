@@ -1,4 +1,8 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <component name = "MainScene" extends = "OverhangPanelSetScene">
     <script type = "text/brightscript" uri = "MainScene.brs"></script>
+    <interface>
+        <field id = "launchArgs" type = "assocarray" alwaysNotify = "true" onChange = "OnLaunchArgs" />
+        <field id = "inputArgs" type = "assocarray" alwaysNotify = "true" onChange = "OnInputArgs" />
+    </interface>
 </component>

@@ -90,6 +90,11 @@ sub OnMainContentTaskContent()
     m.top.panelSet.appendChild(m.menuListPanel)
     m.top.panelSet.appendChild(m.seriesGridPanel)
     m.menuListPanel.setFocus(true)
+    if m.pendingArgs <> invalid then
+        args = m.pendingArgs
+        m.pendingArgs = invalid
+        HandleDeepLink(args)
+    end if
 end sub
 
 function GetContent(contentType = invalid)
@@ -203,7 +208,7 @@ end sub
 
 sub PlayVideo()
     m.top.appendChild(m.videoNode)
- m.videoNode.seek = m.videoNode.content.Timestamp
+    m.videoNode.seek = m.videoNode.content.Timestamp
     m.videoNode.control = "play"
     m.videoNode.setFocus(true)
     m.playbackTimer.control = "start"
@@ -216,9 +221,11 @@ sub SetTimestampOnServer(ts = 9e30 as float)
         id: m.videoNode.content.id,
         ts: ts
     }
-    m.setTimestampTask.contenturi = m.server + "/timestamp"
-    m.setTimestampTask.content = FormatJson(assocArray)
-    m.setTimestampTask.control = "RUN"
+    if m.server <> m.content_feed_certification then
+        m.setTimestampTask.contenturi = m.server + "/timestamp"
+        m.setTimestampTask.content = FormatJson(assocArray)
+        m.setTimestampTask.control = "RUN"
+    end if
 end sub
 
 sub StopVideo(timestamp)
@@ -256,6 +263,143 @@ sub OnVideoStateChange()
         StopVideo(0)
     end if
 end sub
+
+sub OnLaunchArgs()
+    HandleDeepLinkArgs(m.top.launchArgs)
+end sub
+
+sub OnInputArgs()
+    if m.videoNode <> invalid and m.videoNode.hasFocus() then
+        m.playbackTimer.control = "stop"
+        m.videoNode.control = "stop"
+        if m.videoNode.getParent() <> invalid then
+            m.top.removeChild(m.videoNode)
+        end if
+    end if
+    HandleDeepLinkArgs(m.top.inputArgs)
+end sub
+
+sub HandleDeepLinkArgs(args as Object)
+    if args = invalid then return
+    if args.contentId = invalid or args.mediaType = invalid then return
+    if m.series = invalid and m.movies = invalid and m.episodes = invalid then
+        m.pendingArgs = args
+        return
+    end if
+    HandleDeepLink(args)
+end sub
+
+sub HandleDeepLink(args as Object)
+    mt = LCase(args.mediaType)
+    if mt = "movie" then
+        DeepLinkToMovie(args.contentId)
+    else if mt = "episode" then
+        DeepLinkToEpisode(args.contentId)
+    else if mt = "series" then
+        episode = PickSeriesEpisode(args.contentId)
+        if episode <> invalid then DeepLinkToEpisode(episode.id)
+    end if
+end sub
+
+sub DeepLinkToMovie(movieId as String)
+    movieIdx = FindChildIndexById(m.movies, movieId)
+    if movieIdx < 0 then return
+    menuIdx = FindMenuIndexByTitle("Movies")
+    if menuIdx < 0 then return
+
+    m.menuListPanel.list.jumpToItem = menuIdx
+    m.menuListPanel.createNextPanelIndex = menuIdx
+    UpdateSecondPanel()
+    m.top.panelSet.replaceChild(m.movieGridPanel, 1)
+
+    m.movieGridPanel.grid.jumpToItem = movieIdx
+    m.movieGridPanel.createNextPanelIndex = movieIdx
+    CreateMovieDetailsPanel()
+    m.top.panelSet.appendChild(m.movieDetailsPanel)
+
+    PlayVideo()
+end sub
+
+sub DeepLinkToEpisode(episodeId as String)
+    episode = FindChildById(m.episodes, episodeId)
+    if episode = invalid then return
+    seasonIdx = FindChildIndexById(m.seasons, episode.SeasonID)
+    if seasonIdx < 0 then return
+    seasonNode = m.seasons.getChild(seasonIdx)
+    seriesIdx = FindChildIndexById(m.series, seasonNode.SeriesID)
+    if seriesIdx < 0 then return
+    menuIdx = FindMenuIndexByTitle("Shows")
+    if menuIdx < 0 then return
+
+    m.menuListPanel.list.jumpToItem = menuIdx
+    m.menuListPanel.createNextPanelIndex = menuIdx
+    UpdateSecondPanel()
+
+    m.seriesGridPanel.grid.jumpToItem = seriesIdx
+    m.seriesGridPanel.createNextPanelIndex = seriesIdx
+    CreateSeasonListPanel()
+    m.top.panelSet.appendChild(m.seasonListPanel)
+
+    localSeasonIdx = FindChildIndexById(m.filteredSeasons, seasonNode.id)
+    if localSeasonIdx < 0 then return
+    m.seasonListPanel.list.jumpToItem = localSeasonIdx
+    m.seasonListPanel.createNextPanelIndex = localSeasonIdx
+    CreateEpisodeListPanel()
+    m.top.panelSet.appendChild(m.episodeListPanel)
+
+    localEpisodeIdx = FindChildIndexById(m.filteredEpisodes, episodeId)
+    if localEpisodeIdx < 0 then return
+    m.episodeListPanel.list.jumpToItem = localEpisodeIdx
+    m.videoNode.content = m.filteredEpisodes.getChild(localEpisodeIdx)
+
+    PlayVideo()
+end sub
+
+function FindChildById(parent as Object, id as String) as Object
+    if parent = invalid then return invalid
+    for index = 0 to parent.getChildCount() - 1
+        child = parent.getChild(index)
+        if child.id = id then return child
+    end for
+    return invalid
+end function
+
+function FindChildIndexById(parent as Object, id as String) as Integer
+    if parent = invalid then return -1
+    for index = 0 to parent.getChildCount() - 1
+        if parent.getChild(index).id = id then return index
+    end for
+    return -1
+end function
+
+function FindMenuIndexByTitle(title as String) as Integer
+    content = m.menuListPanel.list.content
+    if content = invalid then return -1
+    for index = 0 to content.getChildCount() - 1
+        if content.getChild(index).Title = title then return index
+    end for
+    return -1
+end function
+
+function PickSeriesEpisode(seriesId as String) as Object
+    if m.episodes = invalid then return invalid
+    firstMatch = invalid
+    firstUnwatched = invalid
+    inProgress = invalid
+    for index = 0 to m.episodes.getChildCount() - 1
+        ep = m.episodes.getChild(index)
+        if ep.SeriesID = seriesId then
+            if firstMatch = invalid then firstMatch = ep
+            if ep.Watched = 0 then
+                if ep.Timestamp > 0 and inProgress = invalid then inProgress = ep
+                if firstUnwatched = invalid then firstUnwatched = ep
+            end if
+        end if
+    end for
+    if inProgress <> invalid then return inProgress
+    if firstUnwatched <> invalid then return firstUnwatched
+    return firstMatch
+end function
 
 function OnkeyEvent(key as String, press as Boolean) as Boolean
     result = false
