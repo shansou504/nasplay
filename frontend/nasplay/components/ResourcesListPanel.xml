@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<component name = "ResourcesListPanel" extends = "ListPanel">
+    <script type = "text/brightscript" uri = "ResourcesListPanel.brs"></script>
+    <children>
+        <MarkupList
+            id = "ResourcesMarkupList"
+            itemComponentName = "ResourcesMarkupListItem"
+            itemSize = "[645, 120]"
+            itemSpacing = "[0, 12]"
+        >
+            <ContentNode
+                id = "ResourcesContent"
+                role = "content"
+            >
+                <ContentNode
+                    id = "tmdb"
+                    Title = "The Movie Database"
+                    Description = "Artwork and metadata for media content is provided by The Movie Database.&#10;https://www.themoviedb.org/"
+                    FHDPosterUrl = "pkg:/images/tmdb-logo-80x34.png"
+                />
+                <ContentNode
+                    id = "icons8"
+                    Title = "Icon8"
+                    Description = "Icons (excluding the nasplay logo) are povided by Icons8.&#10;https://icons8.com/"
+                    FHDPosterUrl = "pkg:/images/icons8-icons8-80x34.png"
+                />
+            </ContentNode>
+        </MarkupList>
+    </children>
+</component>

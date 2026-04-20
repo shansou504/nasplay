@@ -11,6 +11,8 @@
             translation = "[0, 8]"
             width = "185"
             height = "104"
+            loadingBitmapUri = "pkg:/images/icons8-picture-185x104.png"
+            failedBitmapUri = "pkg:/images/icons8-picture-185x104.png"
         />
         <Label
             id = "EpisodeTitle"

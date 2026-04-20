@@ -35,6 +35,7 @@ sub init()
     m.keyboardDialog.ObserveField("buttonSelected","SetServer")
     m.keyboardDialog.title = "Server"
     m.keyboardDialog.buttons = ["Save"]
+    m.resourcesListPanel = CreateObject("roSGNode", "ResourcesListPanel")
     m.playbackTimer = CreateObject("roSGNode", "Timer")
     m.playbackTimer.duration = 30
     m.playbackTimer.repeat = true
@@ -154,6 +155,8 @@ sub UpdateSecondPanel()
         m.keyboardDialog.message = ["Current server is " + m.server]
         m.top.dialog = m.keyboardDialog
         m.menuListPanel.nextPanel = invalid
+    else if title = "Resources" then
+        m.menuListPanel.nextPanel = m.resourcesListPanel
     else
         ' Prevent crash
         m.menuListPanel.nextPanel = invalid

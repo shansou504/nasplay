@@ -1,7 +1,7 @@
 title=nasplay
-major_version=1
+major_version=2
 minor_version=0
-build_version=00002
+build_version=00000
 
 mm_icon_focus_hd=pkg:/images/nasplay_290x218.png
 mm_icon_focus_fhd=pkg:/images/nasplay_540x405.png
@@ -10,14 +10,17 @@ background_hd=pkg:/images/background_1280x720.png
 splash_screen_hd=pkg:/images/splash_1280x720.png
 nasplay-logo-160x48=pkg:/images/nasplay-logo-160x48.png
 tmdb-logo-80x43=pkg:/tmdb-logo-80x43.png
-movie=pkg:/images/movie.png
-movie_focused=pkg:/images/movie_focused.png
-server=pkg:/images/server.png
-server_focused=pkg:/images/server_focused.png
-tv=pkg:/images/tv.png
-tv_focused=pkg:/images/tv_focused.png
-play=pkg:/images/play-icon-32x32.png
-play_focused=pkg:/images/play-icon-focused-32x32.png
+icons8-icons8-80x34=pkg:/images/icons8-icons8-80x34.png
+movie-48x48=pkg:/images/movie-48x48.png
+movie_focused-48x48=pkg:/images/movie_focused-48x48.png
+server-48x48=pkg:/images/server-48x48.png
+server_focused-48x48=pkg:/images/server_focused-48x48.png
+tv-48x48=pkg:/images/tv-48x48.png
+tv_focused-48x48=pkg:/images/tv_focused-48x48.png
+play-32x32=pkg:/images/play-icon-32x32.png
+play_focused-32x32=pkg:/images/play-icon-focused-32x32.png
+icons8-picture-48x48=pkg:/images/icons8-picture-48x48.png
+icons8-picture-185x104=pkg:/images/icons8-picture-185x104.png
 icons8-picture-154x231=pkg:/images/icons8-picture-154x231.png
 icons8-picture-300x169=pkg:/images/icons8-picture-300x169.png
 

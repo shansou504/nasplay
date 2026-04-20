@@ -8,7 +8,7 @@
         <MarkupList
             id = "EpisodeMarkupList"
             itemComponentName = "EpisodeMarkupListItem"
-            itemSize = "[700, 120]"
+            itemSize = "[645, 120]"
             itemSpacing = "[0, 12]"
         />
     </children>

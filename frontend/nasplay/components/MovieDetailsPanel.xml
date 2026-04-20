@@ -17,6 +17,8 @@
             width = "388"
             height = "218"
             translation = "[0, 44]"
+            loadingBitmapUri = "pkg:/images/icons8-picture-300x169.png"
+            failedBitmapUri = "pkg:/images/icons8-picture-300x169.png"
         >
         </Poster>
         <Label

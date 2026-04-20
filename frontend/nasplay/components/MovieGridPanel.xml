@@ -11,6 +11,8 @@
             numColumns = "5"
             numRows = "3"
             itemSpacing = "[15,15]"
+            loadingBitmapUri = "pkg:/images/icons8-picture-154x231.png"
+            failedBitmapUri = "pkg:/images/icons8-picture-154x231.png"
         />
     </children>
 </component>
