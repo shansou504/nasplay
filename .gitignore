@@ -3,6 +3,7 @@ backend/nasplay_server/__pycache__/
 backend/instance/
 frontend/nasplay/.vscode/
 .claude/
+CLAUDE.md
 launch.json
 out/
 dev-doc/
