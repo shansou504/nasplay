@@ -87,13 +87,7 @@ source .venv/bin/activate
 pip install flask click waitress
 ```
 
-Then run the following command to create the database. Reference the [Flask Tutorial](https://flask.palletsprojects.com/en/stable/tutorial/database/).
-
-```
-flask --app nasplay_server init-db
-```
-
-Now, there should be an ```instance``` folder with a file called ```media.db``` as defined by ```schema.sql```. In this same folder, create ```config.json``` with the following contents:
+Create the ```.nasplay/backend/instance``` folder. Change directories into the new ```instance``` folder and create ```config.json``` with the following contents:
 
 ```
 {
@@ -103,7 +97,13 @@ Now, there should be an ```instance``` folder with a file called ```media.db``` 
 ```
 Replace ```<path to your media>``` with your actual path. Reference [pathlib](https://docs.python.org/3/library/pathlib.html) documentation. On Windows, this will typically look like ```d:/Media/```. On Linux, something like ```/media/<user>/<UUID>/Media/```.
 
-Once the database is created and ```config.json``` is in place, data can be added to the database using the tool of your choice.
+Then run the following command to create the database. Reference the [Flask Tutorial](https://flask.palletsprojects.com/en/stable/tutorial/database/).
+
+```
+flask --app nasplay_server init-db
+```
+
+Now, there should be ```media.db``` file in the instance folder as defined by ```schema.sql```. Once the database is created, data can be added to the database using the tool of your choice.
 
 ***If you are migrating from Version 1.x.x of nasplay you will need to export your MariaDB data and insert it into the new schema. Note that the views and tables have changed for efficiency, so please review ```schema.sql```. Besides reducing overhead and simplifying connections, another benefit of using SQLite is simplicity in backing up and accessing your data.***
 
@@ -114,3 +114,5 @@ waitress-serve --port=8088 --call "nasplay_server:create_app"
 ```
 
 Lastly, as mentioned before, you will need to define your server's IP from within the Roku app in order to access your data. After closing and reopening the app, your media should be ready to view.
+
+If all goes well, you can (on Linux) create a systemd service file to run the server perpetually.
