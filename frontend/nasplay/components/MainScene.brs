@@ -42,6 +42,13 @@ sub init()
     m.playbackTimer.observeField("fire", "SetTimestampOnServer")
     m.videoNode = CreateObject("roSGNode", "Video")
     m.videoNode.observeField("state", "OnVideoStateChange")
+    m.appLaunchCompleteFired = false
+end sub
+
+sub FireAppLaunchComplete()
+    if m.appLaunchCompleteFired then return
+    m.top.signalBeacon("AppLaunchComplete")
+    m.appLaunchCompleteFired = true
 end sub
 
 Function GetServer() As Dynamic
@@ -95,6 +102,8 @@ sub OnMainContentTaskContent()
         args = m.pendingArgs
         m.pendingArgs = invalid
         HandleDeepLink(args)
+    else
+        FireAppLaunchComplete()
     end if
 end sub
 
@@ -262,7 +271,9 @@ sub StopVideo(timestamp)
 end sub
 
 sub OnVideoStateChange()
-    if m.videoNode.state = "finished" then
+    if m.videoNode.state = "playing" then
+        FireAppLaunchComplete()
+    else if m.videoNode.state = "finished" then
         StopVideo(0)
     end if
 end sub
