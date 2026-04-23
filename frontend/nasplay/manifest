@@ -30,3 +30,5 @@ splash_min_time=1000
 ui_resolutions = "hd"
 
 supports_input_launch=1
+
+rsg_version=1.3
