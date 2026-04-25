@@ -6,7 +6,7 @@ end sub
 
 sub itemContentChanged()
     m.itemcontent = m.top.itemContent
-    m.poster.uri = m.itemcontent.FHDPosterUrl
+    m.poster.uri = m.itemcontent.LandscapeUrl
     m.title.text = m.itemcontent.Title
     m.description.text = m.itemcontent.Description
 end sub

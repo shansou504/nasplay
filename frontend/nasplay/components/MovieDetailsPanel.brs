@@ -14,7 +14,7 @@ end sub
 
 sub UpdatePoster()
     m.posterNode = m.top.content
-    m.moviePoster.uri = m.posterNode.FHDPosterUrl
+    m.moviePoster.uri = m.posterNode.LandscapeUrl
     m.top.overhangTitle = m.posterNode.Title
     m.description.text = m.posterNode.Description
     info = ""

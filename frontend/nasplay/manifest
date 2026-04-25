@@ -1,7 +1,7 @@
 title=nasplay
 major_version=2
 minor_version=0
-build_version=0
+build_version=1
 
 mm_icon_focus_hd=pkg:/images/nasplay_290x218.png
 mm_icon_focus_fhd=pkg:/images/nasplay_540x405.png
