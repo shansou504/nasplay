@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<component name = "SeasonListPanel" extends = "ListPanel">
+<script type = "text/brightscript" uri = "SeasonListPanel.brs"></script>
+    <children>
+        <LabelList
+            id = "SeasonLabelList"
+        >
+        </LabelList>
+    </children>
+</component>

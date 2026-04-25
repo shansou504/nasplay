@@ -1,0 +1,8 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<component name = "MainContentTask" extends = "Task">
+    <script type = "text/brightscript" uri = "MainContentTask.brs"/>
+    <interface>
+        <field id = "contenturi" type = "uri"/>
+        <field id = "content" type = "string" alwaysNotify = "true"/>
+    </interface>
+</component>

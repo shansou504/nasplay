@@ -1,56 +1,118 @@
 # nasplay
-### *Description*
-nasplay is a minimalist [Roku](https://www.roku.com/) app similar to [Plex](https://www.plex.tv/) or [Jellyfin](https://jellyfin.org/) that allows you to play content from your local media server. This repository hosts both the Roku app as well as a containerized backend framework for delivering your content. For testing and development on Roku see [how to activate developer mode](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md) and the [Visual Studio Brightscript Extension](https://marketplace.visualstudio.com/items?itemName=RokuCommunity.brightscript) for debugging.
+
+## *Description*
+
+> **Major version 2.0.0 of nasplay is a complete overhaul on both the backend and frontend. Migration from MariaDB to SQLite will be required for Version 1.x.x users.**
+
+**nasplay** is a minimalist [Roku](https://www.roku.com/) app similar to [Plex](https://www.plex.tv/) or [Jellyfin](https://jellyfin.org/) that allows you to play content from your local media server on your Roku device. This repository hosts both the Roku app as well as the backend framework for delivering your content. For testing and development on Roku see [how to activate developer mode](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md) and the [Visual Studio Brightscript Extension](https://marketplace.visualstudio.com/items?itemName=RokuCommunity.brightscript) for debugging.
+
 ## Roku app
+
 ### *Configuration*
-On the main menu, you can set your media server's IP address and port (default 8088). For example: ```http://192.168.1.2:8088```. Ensure there is no trailing '/'.
+
+On the main menu, set your media server's IP address and port (default 8088). For example: ```http://192.168.1.2:8088```. Ensure there is no trailing ```'/'```.
+
 ### *Content*
-Content must be provided by the user and added to the backend database. A few useful tools one might use are [HandBrake](https://handbrake.fr/) and [MakeMKV](https://www.makemkv.com/). To aid with metadata [The Movie Database API](https://developer.themoviedb.org/docs/getting-started) is extremely helpful.
+
+Content must be provided by the user and added to the backend database as well as be stored on the server's file system. A few useful tools you might use are [HandBrake](https://handbrake.fr/) and [MakeMKV](https://www.makemkv.com/). To aid with metadata, [The Movie Database API](https://developer.themoviedb.org/docs/getting-started) is extremely helpful.
+
 ## Backend Framework
+
 ### *Overview*
-The backend content delivery suite is a [Docker](https://www.docker.com/) container consisting of a [MariaDB](https://mariadb.org/) database with [Adminer](https://www.adminer.org/) as a frontend and a [Node.js](https://nodejs.org/) server using the [Express](https://expressjs.com/) web app framework. Alternatively, each application can be installed and configured manually if containerization is undesirable.
 
-Aside from the backend server, the actual media will need to be hosted as well. This is assumed to be on the same machine running the server and accessible to the Docker container. The default media location on the server is two directories up from the root of the docker container in a ```Media``` folder and mounted into a ```media``` folder in the working directory of the container.
-### *Media Server*
-Your media server needs to have media in the directory structure as follows in order for the backend server to deliver it and for Roku app to find it. Below ```filename``` needs to match the ```filename``` column in the ```content``` table of the database. The same goes for ```filenametitleshow``` and ```filenametitleseason```.
-```
-Media
-|—Movies
-|    |—filename.mp4
-|—Shows
-|    |—filenametitleshow
-|    |    |—filenametitleseason
-|    |    |    |—filename.mp4
-|    |    |—filenametitleseason
-|    |    |    |—filename.mp4
-|—Subtitles
-|    |—filename.srt
-|    |—filenametitleshow
-|    |    |—filename.srt
-```
-### *MariaDB*
-The database is created from ```media.sql``` when the container is started. It has the required structure, but is lacking configuration and content.
-#### *Configuration*
-The ```server``` table will need to have a record added that matches the same IP address and port used in the Roku app. Setting the server in the Roku app will write the value to the first record in this table. This will be used along with the ```url``` table to generate URLs for the Roku to fetch the actual media.
+The backend content delivery server uses [Flask](https://flask.palletsprojects.com/en/stable/)'s web application framework to deliver metadata. This information is housed in a [SQLite](https://sqlite.org/index.html) database and uses Python's [built-in](https://docs.python.org/3/library/sqlite3.html) SQLite connector. Please reference the [Flask Tutorial](https://flask.palletsprojects.com/en/stable/tutorial/) for how the database is initialized (also explained later in the ***Configuration*** section).
 
-The default ```user``` and ```password``` for the database are both 'node'. The root password for the database is randomly generated. These values are set in the ```compose.yaml``` and if modified must also be updated in ```index.js```.
+In addition to serving the metadata, the server also provides the Roku app with endpoints for the media files themselves. The actual media files will need to be made available to the Flask application. You will need to create a ```config.json``` file in the ```instance``` folder (explained later in the ***Configuration*** section) to define the media location on the server.
+
+### *SQLite*
+
+The database is created in the ```instance``` folder through the app factory mechanism within Flask according to the definition provided by ```./nasplay/backend/nasplay_server/schema.sql```. See the ***Configuration*** section below. Upon creation, the database will have the required structure, but will be lacking any content.
+
 #### *Content*
-The ```content``` table contains all of the media content that will be compiled by the ```content_view``` and delivered to the Roku. This is where users will add their media's properties.
 
-For ***Movies*** all of the media properties should be added in a single record. For ***Shows*** (also called *Series* throughout the code) you will need one record for the ***Series*** itself, one for each ***Season***, and one for each ***Episode***. The ```series_id``` and ```season_id``` columns are used by the Roku app to parse and organize content upon receiving the content feed.
+The ```content``` table contains all of the media metadata that will be gathered by the ```content_view``` and delivered to the Roku app as a JSON-formatted content feed.
 
-The ```tmdb_id``` column will be essential for using The Movie Database's APIs and scripting if that source is used to populate artwork, titles, descriptions and soforth.
+For ***Movies***, all of the metadata should be added in a single record. For ***Shows*** (also called *Series* throughout the code) you will need one record for the ***Series*** itself, one for each ***Season***, and one for each ***Episode***. The ```series_id``` and ```season_id``` columns are used by the Roku app to parse and organize content upon receiving the content feed.
 
-*** **Artwork** ***
+The ```tmdb_id``` column will be essential for using The Movie Database's APIs and scripting if you choose to use that to populate poster artwork, official titles, descriptions and so forth.
 
-The ```hdposterurl``` column is used for paths to poster (portrait) artwork that will be used to identify the ```Movies``` and ```Shows``` and must link to an image file with a 2:3 ratio. It will be rendered on the Roku app as ```154x231 px```. The ```fhdposter``` column is used for backdrop (landscape) artwork with a ratio of 16:9 and is rendered as ```300x168 px``` for the movie details screen and ```185x104``` for the episode thumbnails. ***This Roku metadata tag is being repurposed simply so it can be pulled in easily with the ```setFields()``` method.*** As it is highly recommended to use The Movie Database's content in building your database, their logo has been included in the corner of the Roku app by default.
+#### *Poster Artwork*
+
+The ```hdposterurl``` column is used to create URLs for posters (media types ```Movies``` and ```Shows```). It must link to an image file with a 2:3 ratio and will be rendered on the Roku app as ```108x162 px```. The ```fhdposterurl``` column is used for landscape backdrops. It must link to an image file with a 16:9 ratio and is rendered as ```388x218 px``` for the movie details screen and ```185x104 px``` for the episode thumbnails. ***The ```fhdposterurl``` tag is being repurposed here, so it can be pulled in easily with the ```setFields()``` method.***
 
 The ```secondarytitle``` column is used for the year the movie was released as suggested by Roku's content metadata documentation.
 
-The ```content_view``` generates the content feed for the Roku app. It is manipulated slightly by the Node.js server to replace the ```SubtitleUrl``` field with the ```SubtitleTracks``` object. More about Roku's content metadata [here](https://developer.roku.com/docs/developer-program/getting-started/architecture/content-metadata.md)
-#### Backup and Restore
-According to the [documentation](https://hub.docker.com/_/mariadb) you can backup your database to the host machine by mounting to the ```/backup``` folder within the container. Similarly, to reset back to the initial database structure when starting up the container you can mount to the ```/docker-entrypoint-initdb.d```. You could also use this entrypoint to restore a backup if you wish to keep your data.
-### Adminer
-This is a useful frontend for database management. It is included by the ```compose.yaml``` file by default but not required if another tool is preferred.
-### Node.js
-The ```index.js``` file contains the Node.js server that runs queries on the database and serves the results to the Roku app.
+The ```content_view``` generates the content feed for the Roku app. It is manipulated slightly by the Flask server to replace the ```SubtitleUrl``` field with the ```SubtitleTracks``` object as well as clean up special characters so they render properly on the Roku app. More about Roku's content metadata [here](https://developer.roku.com/docs/developer-program/getting-started/architecture/content-metadata.md).
+
+### *Media Server*
+
+The media file endpoints generated by the Flask app require the media folder structure below. ```filename``` needs to match the ```filename``` column in the ```content``` table of the database. The same goes for ```filenametitleshow``` and ```filenametitleseason```.
+```
+Media
+├─Movies
+│ └─filename.mp4
+├─Shows
+│ └─filenametitleshow
+│   ├─filenametitleseason
+│   │ └─filename.mp4
+│   └─filenametitleseason
+│     └─filename.mp4
+└─Subtitles
+  ├─filename.srt
+  └─filenametitleshow
+    └─filename.srt
+```
+
+### *Configuration*
+
+After downloading the repository, navigate to ```./nasplay/backend/```. Create a Python virtual environment here called ```.venv```.
+
+Activate the virtual environment and install [Flask](https://flask.palletsprojects.com/en/stable/), [Click](https://click.palletsprojects.com/en/stable/), and [Waitress](https://docs.pylonsproject.org/projects/waitress/en/stable/):
+
+```
+################################
+# ACTIVATE VIRTUAL ENVIRONMENT #
+################################
+
+# Windows
+.venv\Scripts\Activate.ps1
+
+# Linux
+source .venv/bin/activate
+
+################################
+#     INSTALL REQUIREMENTS     #
+################################
+
+pip install flask click waitress
+```
+
+Create the ```.nasplay/backend/instance``` folder. Change directories into the new ```instance``` folder and create ```config.json``` with the following contents:
+
+```
+{
+    "MEDIAPATH": "<path to your media>",
+    "DATABASE": "media.db"
+}
+```
+Replace ```<path to your media>``` with your actual path. Reference [pathlib](https://docs.python.org/3/library/pathlib.html) documentation. On Windows, this will typically look like ```d:/Media/```. On Linux, something like ```/media/<user>/<UUID>/Media/```.
+
+Then run the following command to create the database. Reference the [Flask Tutorial](https://flask.palletsprojects.com/en/stable/tutorial/database/).
+
+```
+flask --app nasplay_server init-db
+```
+
+Now, there should be ```media.db``` file in the instance folder as defined by ```schema.sql```. Once the database is created, data can be added to the database using the tool of your choice.
+
+***If you are migrating from Version 1.x.x of nasplay you will need to export your MariaDB data and insert it into the new schema. Note that the views and tables have changed for efficiency, so please review ```schema.sql```. Besides reducing overhead and simplifying connections, another benefit of using SQLite is simplicity in backing up and accessing your data.***
+
+After the database has been populated, you can serve it along with the media files by starting the backend server. Reference the [Flask Tutorial](https://flask.palletsprojects.com/en/stable/tutorial/deploy/).
+
+```
+waitress-serve --port=8088 --call "nasplay_server:create_app"
+```
+
+Lastly, as mentioned before, you will need to define your server's IP from within the Roku app in order to access your data. After closing and reopening the app, your media should be ready to view.
+
+If all goes well, you can (on Linux) create a systemd service file to run the server perpetually.

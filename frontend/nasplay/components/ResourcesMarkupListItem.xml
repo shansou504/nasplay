@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<component name = "ResourcesMarkupListItem" extends = "Group">
+<interface>
+    <field id = "itemContent" type = "node" onChange = "itemContentChanged"/>
+</interface>
+<script type = "text/brightscript" uri = "ResourcesMarkupListItem.brs"></script>
+    <children>
+        <Rectangle
+            translation = "[0, 0]"
+            width = "645"
+            height = "120"
+            color = "0x1E1E1EB0"
+        />
+        <Poster
+            id = "ResourcesPoster"
+            translation = "[52, 43]"
+            width = "80"
+            height = "34"
+            loadingBitmapUri = "pkg:/images/icons8-picture-185x104.png"
+            failedBitmapUri = "pkg:/images/icons8-picture-185x104.png"
+        />
+        <Label
+            id = "ResourcesTitle"
+            translation = "[200, 8]"
+            font = "font:SmallBoldSystemFont"
+        />
+        <Label
+            id = "ResourcesDescription"
+            translation = "[200, 42]"
+            width = "380"
+            wrap = "true"
+            maxLines = "3"
+            font = "font:TinySystemFont"
+        />
+    </children>
+</component>

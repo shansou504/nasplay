@@ -1,0 +1,44 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<component name = "MovieDetailsPanel" extends = "Panel" initialFocus = "PlayButton">
+    <interface>
+        <field id = "content" type = "node" onchange = "UpdatePoster" alwaysNotify = "true"/>
+    </interface>
+    <script type = "text/brightscript" uri = "MovieDetailsPanel.brs"></script>
+    <children>
+        <Label
+            id = "RatingReleaseDate"
+            width = "388"
+            translation = "[0, 12]"
+            font = "font:SmallerSystemFont"
+        >
+        </Label>
+        <Poster
+            id = "MoviePoster"
+            width = "388"
+            height = "218"
+            translation = "[0, 44]"
+            loadingBitmapUri = "pkg:/images/icons8-picture-300x169.png"
+            failedBitmapUri = "pkg:/images/icons8-picture-300x169.png"
+        >
+        </Poster>
+        <Label
+            id = "Description"
+            translation = "[0, 280]"
+            width = "388"
+            wrap = "true"
+            maxLines = "7"
+            font = "font:SmallSystemFont"
+        >
+        </Label>
+        <Button
+            id = "PlayButton"
+            text = "Play"
+            iconUri = "pkg:/images/play-icon-32x32.png"
+            focusedIconUri = "pkg:/images/play-icon-focused-32x32.png"
+            minWidth = "144"
+            maxWidth = "144"
+            translation = "[122, 510]"
+        >
+        </Button>
+    </children>
+</component>

@@ -1,0 +1,31 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<component name = "EpisodeMarkupListItem" extends = "Group">
+    <interface>
+        <field id = "itemContent" type = "node" onChange = "itemContentChanged"/>
+        <field id = "itemHasFocus" type = "bool" onChange = "ChangeColor"/>
+    </interface>
+    <script type = "text/brightscript" uri = "EpisodeMarkupListItem.brs"></script>
+    <children>
+        <Poster
+            id = "EpisodePoster"
+            translation = "[0, 8]"
+            width = "185"
+            height = "104"
+            loadingBitmapUri = "pkg:/images/icons8-picture-185x104.png"
+            failedBitmapUri = "pkg:/images/icons8-picture-185x104.png"
+        />
+        <Label
+            id = "EpisodeTitle"
+            translation = "[200, 8]"
+            font = "font:SmallBoldSystemFont"
+        />
+        <Label
+            id = "EpisodeDescription"
+            translation = "[200, 42]"
+            width = "400"
+            wrap = "true"
+            maxLines = "3"
+            font = "font:TinySystemFont"
+        />
+    </children>
+</component>
