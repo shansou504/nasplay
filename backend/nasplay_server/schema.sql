@@ -27,7 +27,7 @@ CREATE TABLE content (
         "secondarytitle"        TEXT,
         "description"   TEXT,
         "hdposterurl"   TEXT,
-        "fhdposterurl"  TEXT,
+        "landscapeurl"  TEXT,
         "releasedate"   TEXT,
         "rating_id"     INTEGER,
         "episodenumber" INTEGER,
@@ -54,7 +54,7 @@ CREATE VIEW content_view AS
           , c.secondarytitle SecondaryTitle
           , c.description Description
           , c.hdposterurl HDPosterUrl
-          , c.fhdposterurl FHDPosterUrl
+          , c.landscapeurl LandscapeUrl
           , c.releasedate ReleaseDate
           , r.rating Rating
           , c.episodenumber EpisodeNumber

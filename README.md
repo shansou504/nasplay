@@ -38,7 +38,7 @@ The ```tmdb_id``` column will be essential for using The Movie Database's APIs a
 
 #### *Poster Artwork*
 
-The ```hdposterurl``` column is used to create URLs for posters (media types ```Movies``` and ```Shows```). It must link to an image file with a 2:3 ratio and will be rendered on the Roku app as ```108x162 px```. The ```fhdposterurl``` column is used for landscape backdrops. It must link to an image file with a 16:9 ratio and is rendered as ```388x218 px``` for the movie details screen and ```185x104 px``` for the episode thumbnails. ***The ```fhdposterurl``` tag is being repurposed here, so it can be pulled in easily with the ```setFields()``` method.***
+The ```hdposterurl``` column is used to create URLs for portrait posters (media types ```Movies``` and ```Shows```). It must link to an image file with a 2:3 ratio and will be rendered on the Roku app as ```108x162 px```. The ```landscapeurl``` column is used for landscape backdrops. It must link to an image file with a 16:9 ratio and is rendered as ```388x218 px``` for the movie details screen and ```185x104 px``` for the episode thumbnails.
 
 The ```secondarytitle``` column is used for the year the movie was released as suggested by Roku's content metadata documentation.
 

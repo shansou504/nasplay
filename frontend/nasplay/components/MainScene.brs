@@ -117,7 +117,6 @@ function GetContent(contentType = invalid)
                     Title: item.Title,
                     Description: item.Description,
                     HDPosterUrl: item.HDPosterUrl,
-                    FHDPosterUrl: item.FHDPosterUrl,
                     ContentType: item.ContentType,
                     ReleaseDate: item.ReleaseDate,
                     Rating: item.Rating,
@@ -135,6 +134,8 @@ function GetContent(contentType = invalid)
                 ' ID (uuid) maps to the built-in node id field
                 childNode.id = item.ID
                 ' Custom fields not in standard ContentNode schema
+                childNode.addField("LandscapeUrl", "string", false)
+                childNode.setField("LandscapeUrl", item.LandscapeUrl)
                 childNode.addField("TitleSeason", "string", false)
                 childNode.setField("TitleSeason", item.TitleSeason)
                 childNode.addField("SeriesID", "string", false)
