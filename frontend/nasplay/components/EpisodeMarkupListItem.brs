@@ -13,10 +13,10 @@ end sub
 
 sub ChangeColor()
     if m.top.itemHasFocus then
-        m.title.color = "#000000"
-        m.description.color = "#000000"
+        m.title.color = "#282828"
+        m.description.color = "#282828"
     else
-        m.title.color = "#FFFFFF"
-        m.description.color = "#FFFFFF"
+        m.title.color = "#EBDBB2"
+        m.description.color = "#EBDBB2"
     end if
 end sub

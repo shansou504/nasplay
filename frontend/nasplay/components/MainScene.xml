@@ -1,5 +1,5 @@
 <?xml version = "1.0" encoding = "utf-8"?>
-<component name = "MainScene" extends = "OverhangPanelSetScene">
+<component name = "MainScene" extends = "OverhangPanelSetScene" backgroundColor = "0x282828FF" backgroundURI = "">
     <script type = "text/brightscript" uri = "MainScene.brs"></script>
     <interface>
         <field id = "launchArgs" type = "assocarray" alwaysNotify = "true" onChange = "OnLaunchArgs" />
