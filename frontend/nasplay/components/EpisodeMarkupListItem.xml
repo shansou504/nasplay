@@ -18,7 +18,7 @@
             id = "EpisodeTitle"
             translation = "[200, 8]"
             font = "font:SmallBoldSystemFont"
-            color = "#98971a"
+            color = "#d79921"
         />
         <Label
             id = "EpisodeDescription"

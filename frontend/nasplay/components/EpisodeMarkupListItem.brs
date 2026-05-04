@@ -17,7 +17,7 @@ sub ChangeColor()
         m.title.color = "#282828"
         m.description.color = "#282828"
     else
-        m.title.color = "#98971a"
+        m.title.color = "#d79921"
         m.description.color = "#ebdbb2"
     end if
 end sub

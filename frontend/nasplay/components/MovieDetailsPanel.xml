@@ -10,7 +10,7 @@
             width = "388"
             translation = "[0, 12]"
             font = "font:SmallerSystemFont"
-            color = "#458588"
+            color = "#d79921"
         >
         </Label>
         <Poster
