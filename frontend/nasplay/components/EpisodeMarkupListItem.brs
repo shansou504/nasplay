@@ -2,6 +2,7 @@ sub init()
     m.poster = m.top.findNode("EpisodePoster")
     m.title = m.top.findNode("EpisodeTitle")
     m.description = m.top.findNode("EpisodeDescription")
+    m.title.color = "#d79921"
 end sub
 
 sub itemContentChanged()
@@ -16,7 +17,7 @@ sub ChangeColor()
         m.title.color = "#282828"
         m.description.color = "#282828"
     else
-        m.title.color = "#EBDBB2"
-        m.description.color = "#EBDBB2"
+        m.title.color = "#98971a"
+        m.description.color = "#ebdbb2"
     end if
 end sub

@@ -18,7 +18,7 @@
             id = "EpisodeTitle"
             translation = "[200, 8]"
             font = "font:SmallBoldSystemFont"
-            color = "0xEBDBB2FF"
+            color = "#98971a"
         />
         <Label
             id = "EpisodeDescription"
@@ -27,7 +27,7 @@
             wrap = "true"
             maxLines = "3"
             font = "font:TinySystemFont"
-            color = "0xEBDBB2FF"
+            color = "#ebdbb2"
         />
     </children>
 </component>

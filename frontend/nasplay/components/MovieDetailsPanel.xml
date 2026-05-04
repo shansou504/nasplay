@@ -10,7 +10,7 @@
             width = "388"
             translation = "[0, 12]"
             font = "font:SmallerSystemFont"
-            color = "0xEBDBB2FF"
+            color = "#458588"
         >
         </Label>
         <Poster
@@ -29,7 +29,7 @@
             wrap = "true"
             maxLines = "7"
             font = "font:SmallSystemFont"
-            color = "0xEBDBB2FF"
+            color = "#ebdbb2"
         >
         </Label>
         <Button
@@ -37,8 +37,8 @@
             text = "Play"
             iconUri = "pkg:/images/play-icon-32x32.png"
             focusedIconUri = "pkg:/images/play-icon-focused-32x32.png"
-            textColor = "0xEBDBB2FF"
-            focusedTextColor = "0x282828FF"
+            textColor = "#d79921"
+            focusedTextColor = "#282828"
             minWidth = "144"
             maxWidth = "144"
             translation = "[122, 510]"

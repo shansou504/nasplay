@@ -5,9 +5,9 @@
         <LabelList
             id = "MenuLabelList"
             itemSize = "[0, 64]"
-            color = "0xEBDBB2FF"
-            focusedColor = "0x282828FF"
-            focusBitmapBlendColor = "0xEBDBB2FF"
+            color = "#ebdbb2"
+            focusedColor = "#282828"
+            focusBitmapBlendColor = "#458588"
         >
             <ContentNode
                 id = "MenuLabelListContent"

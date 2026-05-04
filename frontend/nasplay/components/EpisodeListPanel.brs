@@ -7,7 +7,7 @@ sub init()
     m.top.list = m.episodeMarkupList
     m.episodeMarkupList.observeField("itemFocused", "UpdateLabels")
     m.episodeMarkupList.observeField("content", "UpdateLabels")
-    m.top.rightLabel.color = "#EBDBB2"
+    m.top.rightLabel.color = "#458588"
 end sub
 
 sub UpdateLabels()

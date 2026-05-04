@@ -10,7 +10,7 @@
             itemComponentName = "EpisodeMarkupListItem"
             itemSize = "[645, 120]"
             itemSpacing = "[0, 12]"
-            focusBitmapBlendColor = "0xEBDBB2FF"
+            focusBitmapBlendColor = "#458588"
         />
     </children>
 </component>

@@ -9,7 +9,7 @@
             translation = "[0, 0]"
             width = "645"
             height = "120"
-            color = "0x3C3836B0"
+            color = "#383836"
         />
         <Poster
             id = "ResourcesPoster"
@@ -23,7 +23,7 @@
             id = "ResourcesTitle"
             translation = "[200, 8]"
             font = "font:SmallBoldSystemFont"
-            color = "0xEBDBB2FF"
+            color = "#98971a"
         />
         <Label
             id = "ResourcesDescription"
@@ -32,7 +32,7 @@
             wrap = "true"
             maxLines = "3"
             font = "font:TinySystemFont"
-            color = "0xEBDBB2FF"
+            color = "#ebdbb2"
         />
     </children>
 </component>

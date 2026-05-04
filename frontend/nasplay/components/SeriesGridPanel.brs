@@ -7,7 +7,7 @@ sub init()
     m.top.grid = m.SeriesPosterGrid
     m.SeriesPosterGrid.observeField("itemFocused", "OnItemFocused")
     m.SeriesPosterGrid.observeField("content", "OnContentChanged")
-    m.top.rightLabel.color = "#EBDBB2"
+    m.top.rightLabel.color = "#458588"
 end sub
 
 sub OnItemFocused()
