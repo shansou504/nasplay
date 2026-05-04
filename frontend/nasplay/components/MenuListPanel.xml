@@ -5,6 +5,9 @@
         <LabelList
             id = "MenuLabelList"
             itemSize = "[0, 64]"
+            color = "#ebdbb2"
+            focusedColor = "#282828"
+            focusBitmapBlendColor = "#458588"
         >
             <ContentNode
                 id = "MenuLabelListContent"
@@ -12,7 +15,7 @@
             >
                 <ContentNode hdlistitemiconurl = "pkg:/images/tv-48x48.png" hdlistitemiconselectedurl = "pkg:/images/tv_focused-48x48.png" title = "Shows"/>
                 <ContentNode hdlistitemiconurl = "pkg:/images/movie-48x48.png" hdlistitemiconselectedurl = "pkg:/images/movie_focused-48x48.png" title = "Movies"/>
-                <ContentNode hdlistitemiconurl = "pkg:/images/icons8-picture-48x48.png" hdlistitemiconselectedurl = "pkg:/images/icons8-picture-48x48.png" title = "Resources"/>
+                <ContentNode hdlistitemiconurl = "pkg:/images/icons8-picture-48x48.png" hdlistitemiconselectedurl = "pkg:/images/icons8-picture_focused-48x48.png" title = "Resources"/>
                 <ContentNode hdlistitemiconurl = "pkg:/images/server-48x48.png" hdlistitemiconselectedurl = "pkg:/images/server_focused-48x48.png" title = "Server"/>
             </ContentNode>
         </LabelList>

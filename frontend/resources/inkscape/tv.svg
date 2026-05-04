@@ -9,10 +9,10 @@
    version="1.1"
    id="svg1536"
    sodipodi:docname="tv.svg"
-   inkscape:export-filename="tv.png"
+   inkscape:export-filename="..\..\nasplay\images\tv-48x48.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
-   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -29,25 +29,27 @@
      inkscape:pagecheckerboard="true"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="18.145833"
-     inkscape:cx="20.335247"
-     inkscape:cy="24.027555"
-     inkscape:window-width="1872"
-     inkscape:window-height="1025"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:zoom="9.0729165"
+     inkscape:cx="25.184845"
+     inkscape:cy="26.948336"
+     inkscape:window-width="1366"
+     inkscape:window-height="697"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg1536" />
   <path
      d="M2 20V9C2 7.89543 2.89543 7 4 7H20C21.1046 7 22 7.89543 22 9V20C22 21.1046 21.1046 22 20 22H4C2.89543 22 2 21.1046 2 20Z"
      stroke="#ffffff"
      stroke-width="1.5"
-     id="path1532" />
+     id="path1532"
+     style="stroke:#689d6a;stroke-opacity:1" />
   <path
      d="M8.5 2.5L12 6L15.5 2.5"
      stroke="#ffffff"
      stroke-width="1.5"
      stroke-linecap="round"
      stroke-linejoin="round"
-     id="path1534" />
+     id="path1534"
+     style="stroke:#689d6a;stroke-opacity:1" />
 </svg>

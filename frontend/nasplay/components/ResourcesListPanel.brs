@@ -1,7 +1,6 @@
 sub init()
     m.top.id = "ResourcesListPanel"
     m.top.overhangTitle = "Resources"
-    m.top.leftLabel.text = "Thank You"
     m.top.panelSize = "wide"
     m.top.hasNextPanel = false
     m.top.focusable = false

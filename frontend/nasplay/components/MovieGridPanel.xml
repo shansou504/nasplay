@@ -13,6 +13,7 @@
             itemSpacing = "[15,15]"
             loadingBitmapUri = "pkg:/images/icons8-picture-154x231.png"
             failedBitmapUri = "pkg:/images/icons8-picture-154x231.png"
+            focusBitmapBlendColor = "#458588"
         />
     </children>
 </component>

@@ -9,7 +9,6 @@ sub init()
     m.moviePoster = m.top.findNode("MoviePoster")
     m.description = m.top.findNode("Description")
     m.playButton = m.top.findNode("PlayButton")
-    m.playButton.showFocusFootprint = true
 end sub
 
 sub UpdatePoster()
