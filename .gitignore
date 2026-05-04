@@ -4,7 +4,6 @@ backend/instance/
 .vscode/
 .claude/
 CLAUDE.md
-launch.json
 frontend/out/
 dev-doc/
 samples/
