@@ -43,7 +43,7 @@
      stroke="#ffffff"
      stroke-width="1.5"
      id="path1532"
-     style="stroke:#689d6a;stroke-opacity:1" />
+     style="stroke:#fbf1c7;stroke-opacity:1" />
   <path
      d="M8.5 2.5L12 6L15.5 2.5"
      stroke="#ffffff"
@@ -51,5 +51,5 @@
      stroke-linecap="round"
      stroke-linejoin="round"
      id="path1534"
-     style="stroke:#689d6a;stroke-opacity:1" />
+     style="stroke:#fbf1c7;stroke-opacity:1" />
 </svg>

@@ -7,7 +7,7 @@ sub init()
     m.top.grid = m.MoviePosterGrid
     m.MoviePosterGrid.observeField("itemFocused", "OnItemFocused")
     m.MoviePosterGrid.observeField("content", "OnContentChanged")
-    m.top.rightLabel.color = "#458588"
+    m.top.rightLabel.color = "#d79921"
 end sub
 
 sub OnItemFocused()
