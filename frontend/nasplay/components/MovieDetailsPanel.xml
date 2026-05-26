@@ -29,7 +29,7 @@
             wrap = "true"
             maxLines = "7"
             font = "font:SmallSystemFont"
-            color = "#ebdbb2"
+            color = "#fbf1c7"
         >
         </Label>
         <Button
@@ -38,7 +38,7 @@
             iconUri = "pkg:/images/play-icon-32x32.png"
             focusedIconUri = "pkg:/images/play-icon-focused-32x32.png"
             textColor = "#d79921"
-            focusedTextColor = "#282828"
+            focusedTextColor = "#fbf1c7"
             minWidth = "144"
             maxWidth = "144"
             translation = "[122, 510]"

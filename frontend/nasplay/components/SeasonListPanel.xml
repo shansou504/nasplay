@@ -4,9 +4,9 @@
     <children>
         <LabelList
             id = "SeasonLabelList"
-            color = "#eddbb2"
-            focusedColor = "#282828"
-            focusBitmapBlendColor = "#458588"
+            color = "#fbf1c7"
+            focusedColor = "#d79921"
+            focusBitmapBlendColor = "#076678"
         >
         </LabelList>
     </children>

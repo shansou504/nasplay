@@ -32,7 +32,7 @@
             wrap = "true"
             maxLines = "3"
             font = "font:TinySystemFont"
-            color = "#ebdbb2"
+            color = "#fbf1c7"
         />
     </children>
 </component>
