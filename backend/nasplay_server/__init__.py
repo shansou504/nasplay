@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, url_for, send_file
 from pathlib import Path, PurePath
 import json
 def create_app():
@@ -30,6 +30,26 @@ def create_app():
                 return "", 500
         except Exception as e:
             print("Could not get content")
+            print(e)
+            return "", 500
+        
+    @app.route("/hdposterurl", methods=["GET"])
+    def hdposterurl():
+        try:
+            id = request.args["id"]
+            return send_file(f"static/images/{id}_hdposter.jpg")
+        except Exception as e:
+            print("Could not get hdposterurl")
+            print(e)
+            return "", 500
+    
+    @app.route("/landscapeurl", methods=["GET"])
+    def landscapeurl():
+        try:
+            id = request.args["id"]
+            return send_file(f"static/images/{id}_landscape.jpg")
+        except Exception as e:
+            print("Could not get landscapeurl")
             print(e)
             return "", 500
         

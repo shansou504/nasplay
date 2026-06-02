@@ -1,5 +1,6 @@
 backend/.venv/
 backend/nasplay_server/__pycache__/
+backend/nasplay_server/static/images/
 backend/instance/
 .vscode/
 .claude/
