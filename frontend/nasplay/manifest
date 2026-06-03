@@ -21,6 +21,7 @@ play_focused-32x32=pkg:/images/play-icon-focused-32x32.png
 button-background-144x80:/images/button-background-144x80.png
 icons8-picture-48x48=pkg:/images/icons8-picture-48x48.png
 icons8-picture_focused-48x48=pkg:/images/icons8-picture_focused-48x48.png
+icons8-picture-185x104=pkg:/images/icons8-picture-185x104.png
 icons8-picture-154x231=pkg:/images/icons8-picture-154x231.png
 icons8-picture-300x169=pkg:/images/icons8-picture-300x169.png
 
