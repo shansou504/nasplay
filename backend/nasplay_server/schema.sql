@@ -25,6 +25,7 @@ CREATE TABLE content (
         "season_id"     TEXT,
         "secondarytitle"        TEXT,
         "description"   TEXT,
+        "artworkbaseserver_id" INTEGER,
         "hdposterurl"   TEXT,
         "landscapeurl"  TEXT,
         "releasedate"   TEXT,
@@ -51,8 +52,8 @@ CREATE VIEW content_view AS
           , c.series_id SeriesID
           , c.secondarytitle SecondaryTitle
           , c.description Description
-          , c.hdposterurl HDPosterUrl
-          , c.landscapeurl LandscapeUrl
+          , concat(a.server, '/', c.hdposterurl) HDPosterUrl
+          , concat(a.server, '/', c.landscapeurl) LandscapeUrl
           , c.releasedate ReleaseDate
           , r.rating Rating
           , c.episodenumber EpisodeNumber
@@ -66,5 +67,7 @@ CREATE VIEW content_view AS
                    ON c.roku_contenttype_id = ct.roku_id
             LEFT JOIN rating r
                    ON c.rating_id = r.id
+            LEFT JOIN server a
+                   ON c.artworkbaseserver_id = a.id
             LEFT JOIN server s
                    ON c.server_id = s.id;
