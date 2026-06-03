@@ -10,7 +10,7 @@
 
 ### *Configuration*
 
-On the main menu, set your media server's IP address and port (default 8088). For example: ```http://192.168.1.2:8088```. Ensure there is no trailing ```'/'```.
+On the main menu, set your media server's IP address and port (default 8088). For example: ```http://192.168.1.2:8088```. **Ensure there is no trailing ```'/'```.**
 
 ### *Content*
 
@@ -110,6 +110,24 @@ Now, there should be ```media.db``` file in the instance folder as defined by ``
 #### Local Images
 
 If you have local images for media, you can create a ```./nasplay/backend/nasplay_server/static/images``` folder to hold your media. The files should be called ```<uuid>_hdposter.jpg``` or ```<uuid>_landscape.jpg```. In the database, the ```hdposterurl``` and ```landscapeurl``` columns should be for example ```http://<IP>:<port>/hdposterurl?id=<uuid>``` or ```http://<IP>:<port>/landscapeurl?id=<uuid>```.
+
+It will be helpful to add your server to the ```server``` table so that it corresponds with record ```id = 1```. This is the record that will get updated when setting your server through the Roku app. **The ```server``` table can also hold the base url for The Movie Database if you are using that for images as ```id = 2```.** Then for each record in the database with artwork in the ```content.hdposterurl``` and ```content.landscapeurl``` you can update the ```artworkbaseserver_id``` column to correspond with the ```server.id``` record for the base url and utilize the other two columns as the endpoints. The ```content_view``` will join these together to complete the url.
+
+For example:
+
+```
+SELECT * FROM server;
+
+1|http://192.168.1.2:8088
+2|https://image.tmdb.org/t/p
+
+SELECT hdposterurl FROM content WHERE hdposterurl IS NOT NULL AND artworkbaseserver_id = 2 LIMIT 1;
+
+w154/voMB69AsLnPNmtfbrBl0lbeFKDH.jpg
+
+SELECT hdposterurl FROM content WHERE hdposterurl IS NOT NULL AND artworkbaseserver_id = 1 LIMIT 1;
+hdposterurl?id=dc44054d-6c3a-49ad-ab95-a0cf52a68091
+```
 
 After the database has been populated, you can serve it along with the media files by starting the backend server. Reference the [Flask Tutorial](https://flask.palletsprojects.com/en/stable/tutorial/deploy/).
 
