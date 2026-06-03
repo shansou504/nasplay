@@ -23,7 +23,6 @@ CREATE TABLE content (
         "title" TEXT NOT NULL,
         "series_id"     TEXT,
         "season_id"     TEXT,
-        "titleseason"   TEXT,
         "secondarytitle"        TEXT,
         "description"   TEXT,
         "hdposterurl"   TEXT,

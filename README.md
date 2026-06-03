@@ -107,6 +107,10 @@ Now, there should be ```media.db``` file in the instance folder as defined by ``
 
 ***If you are migrating from Version 1.x.x of nasplay you will need to export your MariaDB data and insert it into the new schema. Note that the views and tables have changed for efficiency, so please review ```schema.sql```. Besides reducing overhead and simplifying connections, another benefit of using SQLite is simplicity in backing up and accessing your data.***
 
+#### Local Images
+
+If you have local images for media, you can create a ```./nasplay/backend/nasplay_server/static/images``` folder to hold your media. The files should be called ```<uuid>_hdposter.jpg``` or ```<uuid>_landscape.jpg```. In the database, the ```hdposterurl``` and ```landscapeurl``` columns should be for example ```http://<IP>:<port>/hdposterurl?id=<uuid>``` or ```http://<IP>:<port>/landscapeurl?id=<uuid>```.
+
 After the database has been populated, you can serve it along with the media files by starting the backend server. Reference the [Flask Tutorial](https://flask.palletsprojects.com/en/stable/tutorial/deploy/).
 
 ```

@@ -141,8 +141,6 @@ function GetContent(contentType = invalid)
                 ' Custom fields not in standard ContentNode schema
                 childNode.addField("LandscapeUrl", "string", false)
                 childNode.setField("LandscapeUrl", item.LandscapeUrl)
-                childNode.addField("TitleSeason", "string", false)
-                childNode.setField("TitleSeason", item.TitleSeason)
                 childNode.addField("SeriesID", "string", false)
                 childNode.setField("SeriesID", item.SeriesID)
                 childNode.addField("SeasonID", "string", false)
