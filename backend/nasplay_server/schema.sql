@@ -47,7 +47,6 @@ CREATE VIEW content_view AS
      SELECT c.uuid ID
           , ct.contenttype ContentType
           , c.title Title
-          , c.titleseason TitleSeason
           , c.season_id SeasonID
           , c.series_id SeriesID
           , c.secondarytitle SecondaryTitle
